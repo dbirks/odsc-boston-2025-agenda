@@ -28,6 +28,8 @@ jobs:
 
           // The URL to fetch the agenda data from
           const DATA_URL = process.env.AGENDA_API_URL;
+          // API authentication token (if needed)
+          const API_TOKEN = process.env.AGENDA_API_TOKEN;
           
           // Destination file path
           const OUTPUT_FILE = path.join('data', 'agenda.json');
@@ -37,7 +39,21 @@ jobs:
             return new Promise((resolve, reject) => {
               console.log(`Fetching data from ${DATA_URL}...`);
               
-              const req = https.get(DATA_URL, (res) => {
+              // Setup request options with authorization if token exists
+              const options = new URL(DATA_URL);
+              const reqOptions = {
+                hostname: options.hostname,
+                path: options.pathname + options.search,
+                method: 'GET',
+                headers: {}
+              };
+
+              // Add authorization header if token exists
+              if (API_TOKEN) {
+                reqOptions.headers['Authorization'] = `Bearer ${API_TOKEN}`;
+              }
+
+              const req = https.request(reqOptions, (res) => {
                 if (res.statusCode !== 200) {
                   reject(new Error(`Failed to fetch data: ${res.statusCode} ${res.statusMessage}`));
                   return;
@@ -142,6 +158,7 @@ jobs:
       - name: Execute fetch script
         env:
           AGENDA_API_URL: ${{ secrets.AGENDA_API_URL }}
+          AGENDA_API_TOKEN: ${{ secrets.AGENDA_API_TOKEN }}
         run: node fetch-agenda.js
 
       - name: Check if data was updated

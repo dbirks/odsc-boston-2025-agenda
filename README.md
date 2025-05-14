@@ -42,9 +42,10 @@ This repository includes a GitHub Action that automatically fetches updated agen
 
 ### Required Secrets
 
-To enable the automated data updates, you need to add the following secret to your GitHub repository:
+To enable the automated data updates, you need to add the following secrets to your GitHub repository:
 
 - `AGENDA_API_URL`: The URL to fetch the agenda data from
+- `AGENDA_API_TOKEN`: (Optional) Authentication token if the API requires authorization
 
 ### How It Works
 
