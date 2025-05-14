@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import type { TicketType } from "../types";
 
 interface FilterBarProps {
   onFilterChange: (ticketType: TicketType) => void;

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import type { SessionItem, TicketType } from "../types";
 import { FilterBar } from "./FilterBar";
 import { SessionCard } from "./SessionCard";
 import { DaySelector } from "./DaySelector";
@@ -18,7 +17,7 @@ export function AgendaDisplay() {
   useEffect(() => {
     const data = agendaData as SessionItem[];
     setSessions(data);
-
+    
     // Extract unique dates for the day selector
     const uniqueDates = [...new Set(data.map(session => session.date))];
     uniqueDates.sort(); // Sort chronologically
@@ -28,26 +27,26 @@ export function AgendaDisplay() {
   // Apply filters when sessions, ticketFilter, or selectedDay changes
   useEffect(() => {
     let filtered = [...sessions];
-
+    
     // Apply ticket type filter
     if (ticketFilter !== "All") {
-      filtered = filtered.filter(session =>
-        session.access === ticketFilter ||
+      filtered = filtered.filter(session => 
+        session.access === ticketFilter || 
         // Special case for Gold (which might include access to Premium and General)
         (ticketFilter === "Gold" && (session.access === "Premium" || session.access === "General"))
       );
     }
-
+    
     // Apply day filter
     if (selectedDay) {
       filtered = filtered.filter(session => session.date === selectedDay);
     }
-
+    
     // Sort by start time
     filtered.sort((a, b) => {
       return a.timerStartTime.localeCompare(b.timerStartTime);
     });
-
+    
     setFilteredSessions(filtered);
   }, [sessions, ticketFilter, selectedDay]);
 
@@ -76,7 +75,7 @@ export function AgendaDisplay() {
         <DaySelector availableDays={availableDays} onDayChange={handleDayChange} />
         <FilterBar onFilterChange={handleFilterChange} />
       </div>
-
+      
       <div className="mt-6">
         {selectedDay && (
           <h2 className="text-xl font-semibold mb-4 flex items-center sticky top-0 bg-white z-10 py-2">
@@ -85,7 +84,7 @@ export function AgendaDisplay() {
             </Badge>
           </h2>
         )}
-
+        
         {filteredSessions.map(session => (
           <SessionCard key={session._id} session={session} />
         ))}

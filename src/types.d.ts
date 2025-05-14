@@ -1,4 +1,4 @@
-export interface SessionItem {
+declare interface SessionItem {
   _id: string;
   _updatedAt: string;
   access: string; // "Premium", "General", "Platinum", etc.
@@ -35,4 +35,4 @@ export interface SessionItem {
   unlockable?: boolean;
 }
 
-export type TicketType = "All" | "General" | "Premium" | "Platinum" | "Gold";
+declare type TicketType = "All" | "General" | "Premium" | "Platinum" | "Gold";

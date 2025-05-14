@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { SessionItem } from "../types";
 import agendaData from "../../data/agenda.json";
 
 export function LastUpdatedIndicator() {
