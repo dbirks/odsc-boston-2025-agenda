@@ -23,8 +23,10 @@ export function DaySelector({ availableDays, onDayChange }: DaySelectorProps) {
       // Just use the existing selected day
     } else {
       // Format today's date in the same format as in the data (YYYY-MM-DD)
+      // Use Eastern time (ET) for consistency with conference timezone
       const today = new Date();
-      const formattedToday = today.toISOString().split('T')[0];
+      const todayET = new Date(today.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const formattedToday = todayET.toISOString().split('T')[0];
 
       // Check if today's date is in the available days
       if (availableDays.includes(formattedToday)) {
@@ -47,8 +49,9 @@ export function DaySelector({ availableDays, onDayChange }: DaySelectorProps) {
 
   // Format date for display (e.g., "May 13")
   const formatDisplayDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    // Ensure consistent timezone handling
+    const date = new Date(dateString + 'T12:00:00'); // Add noon time to avoid DST issues
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'America/New_York' });
   };
 
   return (

@@ -109,10 +109,13 @@ jobs:
                     }
                     
                     // Update the _updatedAt timestamp for each item
-                    const now = new Date().toISOString();
+                    // Use Eastern time (ET) for consistency with conference timezone
+                    const now = new Date();
+                    const nowET = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+                    const nowISOString = nowET.toISOString();
                     const updatedData = jsonData.map(item => ({
                       ...item,
-                      _updatedAt: now
+                      _updatedAt: nowISOString
                     }));
                     
                     // Stringify with pretty printing

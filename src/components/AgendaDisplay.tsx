@@ -62,8 +62,9 @@ export function AgendaDisplay() {
 
   // Format date for display (e.g., "2025-05-14" to "May 14, 2025")
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    // Add time component to avoid timezone issues
+    const date = new Date(dateString + 'T12:00:00');
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/New_York' });
   };
 
   return (
