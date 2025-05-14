@@ -1,0 +1,190 @@
+name: Fetch and Update Agenda Data
+
+on:
+  schedule:
+    # Run every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  fetch-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Create fetch script
+        run: |
+          cat > fetch-agenda.js << 'EOF'
+          const fs = require('fs');
+          const https = require('https');
+          const path = require('path');
+
+          // The URL to fetch the agenda data from
+          const DATA_URL = process.env.AGENDA_API_URL;
+          
+          // Destination file path
+          const OUTPUT_FILE = path.join('data', 'agenda.json');
+          
+          // Create a function to fetch the data
+          function fetchData() {
+            return new Promise((resolve, reject) => {
+              console.log(`Fetching data from ${DATA_URL}...`);
+              
+              const req = https.get(DATA_URL, (res) => {
+                if (res.statusCode !== 200) {
+                  reject(new Error(`Failed to fetch data: ${res.statusCode} ${res.statusMessage}`));
+                  return;
+                }
+                
+                let data = '';
+                res.on('data', (chunk) => {
+                  data += chunk;
+                });
+                
+                res.on('end', () => {
+                  try {
+                    // Parse the data to verify it's valid JSON
+                    const jsonData = JSON.parse(data);
+                    
+                    // Validate that it's not an empty array and has expected properties
+                    if (!Array.isArray(jsonData) || jsonData.length === 0) {
+                      reject(new Error('Fetched data is empty or not an array'));
+                      return;
+                    }
+                    
+                    // Validate the first item has expected properties
+                    const firstItem = jsonData[0];
+                    const requiredProps = ['_id', 'talkTitle', 'date', 'access'];
+                    for (const prop of requiredProps) {
+                      if (!firstItem.hasOwnProperty(prop)) {
+                        reject(new Error(`Fetched data is missing required property: ${prop}`));
+                        return;
+                      }
+                    }
+                    
+                    // Update the _updatedAt timestamp for each item
+                    const now = new Date().toISOString();
+                    const updatedData = jsonData.map(item => ({
+                      ...item,
+                      _updatedAt: now
+                    }));
+                    
+                    // Stringify with pretty printing
+                    resolve(JSON.stringify(updatedData, null, 2));
+                  } catch (err) {
+                    reject(new Error(`Invalid JSON: ${err.message}`));
+                  }
+                });
+              });
+              
+              req.on('error', (err) => {
+                reject(new Error(`Request error: ${err.message}`));
+              });
+              
+              req.end();
+            });
+          }
+          
+          // Main function
+          async function main() {
+            try {
+              // Fetch new data
+              const newData = await fetchData();
+              
+              // Check if the output file exists
+              let hasChanges = true;
+              if (fs.existsSync(OUTPUT_FILE)) {
+                const existingData = fs.readFileSync(OUTPUT_FILE, 'utf8');
+                
+                // Compare data (ignoring _updatedAt fields for comparison)
+                const existingJson = JSON.parse(existingData);
+                const newJson = JSON.parse(newData);
+                
+                // Remove _updatedAt for comparison
+                const sanitizeForComparison = (data) => {
+                  return data.map(item => {
+                    const { _updatedAt, ...rest } = item;
+                    return rest;
+                  });
+                };
+                
+                const existingCompare = sanitizeForComparison(existingJson);
+                const newCompare = sanitizeForComparison(newJson);
+                
+                hasChanges = JSON.stringify(existingCompare) !== JSON.stringify(newCompare);
+              }
+              
+              if (hasChanges) {
+                // Write the data to the output file
+                fs.writeFileSync(OUTPUT_FILE, newData);
+                console.log('Agenda data updated successfully!');
+                process.exit(0); // Exit with success to allow commit
+              } else {
+                console.log('No changes in agenda data.');
+                process.exit(0); // Exit with success but we'll skip commit
+              }
+            } catch (err) {
+              console.error(`Error: ${err.message}`);
+              process.exit(1); // Exit with error
+            }
+          }
+          
+          main();
+          EOF
+
+      - name: Execute fetch script
+        env:
+          AGENDA_API_URL: ${{ secrets.AGENDA_API_URL }}
+        run: node fetch-agenda.js
+
+      - name: Check if data was updated
+        id: check-changes
+        run: |
+          if git diff --quiet data/agenda.json; then
+            echo "No changes to agenda data."
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected in agenda data."
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate JSON
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          # Check file size
+          FILE_SIZE=$(stat -c%s "data/agenda.json")
+          if [ "$FILE_SIZE" -lt 100 ]; then
+            echo "Error: Agenda file is suspiciously small ($FILE_SIZE bytes)"
+            exit 1
+          fi
+          
+          # Validate JSON format
+          if ! jq '.' data/agenda.json > /dev/null 2>&1; then
+            echo "Error: Invalid JSON format"
+            exit 1
+          fi
+          
+          # Check for array with items
+          ITEM_COUNT=$(jq '. | length' data/agenda.json)
+          if [ "$ITEM_COUNT" -lt 1 ]; then
+            echo "Error: No items in agenda data"
+            exit 1
+          fi
+          
+          echo "JSON validation passed: $ITEM_COUNT items found"
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/agenda.json
+          git commit -m "Update agenda data [skip ci]" -m "Updated via automated fetch at $(date)"
+          git push
