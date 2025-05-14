@@ -30,6 +30,9 @@ jobs:
           const DATA_URL = process.env.AGENDA_API_URL;
           // API authentication token (if needed)
           const API_TOKEN = process.env.AGENDA_API_TOKEN;
+          // Alternative API key and header name (if needed)
+          const API_KEY = process.env.AGENDA_API_KEY;
+          const API_KEY_HEADER = process.env.AGENDA_API_KEY_HEADER || 'x-api-key';
           
           // Destination file path
           const OUTPUT_FILE = path.join('data', 'agenda.json');
@@ -45,12 +48,32 @@ jobs:
                 hostname: options.hostname,
                 path: options.pathname + options.search,
                 method: 'GET',
-                headers: {}
+                headers: {
+                  'Accept': 'application/json',
+                  'User-Agent': 'ODSC-Agenda-Updater/1.0'
+                }
               };
 
               // Add authorization header if token exists
               if (API_TOKEN) {
-                reqOptions.headers['Authorization'] = `Bearer ${API_TOKEN}`;
+                // Support both Bearer token and API key patterns
+                if (API_TOKEN.startsWith('Bearer ')) {
+                  reqOptions.headers['Authorization'] = API_TOKEN;
+                } else if (API_TOKEN.includes(':')) {
+                  // Basic auth format (username:password)
+                  const base64Auth = Buffer.from(API_TOKEN).toString('base64');
+                  reqOptions.headers['Authorization'] = `Basic ${base64Auth}`;
+                } else {
+                  // Default to Bearer token
+                  reqOptions.headers['Authorization'] = `Bearer ${API_TOKEN}`;
+                }
+              }
+
+              // Support for custom API key header
+              const API_KEY = process.env.AGENDA_API_KEY;
+              const API_KEY_HEADER = process.env.AGENDA_API_KEY_HEADER || 'x-api-key';
+              if (API_KEY) {
+                reqOptions.headers[API_KEY_HEADER] = API_KEY;
               }
 
               const req = https.request(reqOptions, (res) => {
@@ -159,6 +182,8 @@ jobs:
         env:
           AGENDA_API_URL: ${{ secrets.AGENDA_API_URL }}
           AGENDA_API_TOKEN: ${{ secrets.AGENDA_API_TOKEN }}
+          AGENDA_API_KEY: ${{ secrets.AGENDA_API_KEY }}
+          AGENDA_API_KEY_HEADER: ${{ secrets.AGENDA_API_KEY_HEADER }}
         run: node fetch-agenda.js
 
       - name: Check if data was updated
