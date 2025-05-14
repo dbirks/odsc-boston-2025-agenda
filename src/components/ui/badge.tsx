@@ -13,6 +13,8 @@ const badgeVariants = cva(
           "border-transparent bg-purple-500 text-white hover:bg-purple-600",
         destructive:
           "border-transparent bg-red-500 text-white hover:bg-red-600",
+        gold:
+          "border-amber-400 bg-amber-100 text-amber-800 hover:bg-amber-200",
         outline: "border-gray-300 text-gray-700 bg-white",
       },
     },

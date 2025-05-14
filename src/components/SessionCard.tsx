@@ -44,6 +44,7 @@ export function SessionCard({ session }: SessionCardProps) {
                 session.access === "General" ? "default" :
                 session.access === "Premium" ? "secondary" :
                 session.access === "Platinum" ? "destructive" :
+                session.access === "Gold" ? "gold" :
                 "outline"
               }>{session.access}</Badge>
             </div>
@@ -146,6 +147,7 @@ export function SessionCard({ session }: SessionCardProps) {
                 session.access === "General" ? "default" :
                 session.access === "Premium" ? "secondary" :
                 session.access === "Platinum" ? "destructive" :
+                session.access === "Gold" ? "gold" :
                 "outline"
               }>
                 {session.access} Access
@@ -207,6 +209,7 @@ export function SessionCard({ session }: SessionCardProps) {
                   session.access === "General" ? "default" :
                   session.access === "Premium" ? "secondary" :
                   session.access === "Platinum" ? "destructive" :
+                  session.access === "Gold" ? "gold" :
                   "outline"
                 } 
                 className="text-[10px] px-1.5 py-0 h-4 max-w-16 overflow-hidden text-ellipsis whitespace-nowrap"

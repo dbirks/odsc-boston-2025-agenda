@@ -96,7 +96,7 @@ export function AgendaDisplay() {
                 ticketFilter === "General" ? "default" :
                 ticketFilter === "Premium" ? "secondary" :
                 ticketFilter === "Platinum" ? "destructive" :
-                ticketFilter === "Gold" ? "outline" : "outline"
+                ticketFilter === "Gold" ? "gold" : "outline"
               }
               className="text-base px-3 py-1">
               {ticketFilter}
