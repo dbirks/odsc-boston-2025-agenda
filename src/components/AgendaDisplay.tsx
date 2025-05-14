@@ -3,6 +3,7 @@ import type { SessionItem, TicketType } from "../types";
 import { FilterBar } from "./FilterBar";
 import { SessionCard } from "./SessionCard";
 import { DaySelector } from "./DaySelector";
+import { LastUpdatedIndicator } from "./LastUpdatedIndicator";
 import agendaData from "../../data/agenda.json";
 import { Badge } from "./ui/badge";
 
@@ -68,7 +69,8 @@ export function AgendaDisplay() {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">ODSC Boston 2025 Agenda</h1>
+      <h1 className="text-3xl font-bold mb-2 text-center">ODSC Boston 2025 Agenda</h1>
+      <LastUpdatedIndicator />
       
       <div className="space-y-4">
         <DaySelector availableDays={availableDays} onDayChange={handleDayChange} />
