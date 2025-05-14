@@ -17,21 +17,28 @@ export function AgendaDisplay() {
   useEffect(() => {
     const data = agendaData as SessionItem[];
     setSessions(data);
-    
-    // Extract unique dates for the day selector
-    const uniqueDates = [...new Set(data.map(session => session.date))];
+
+    // Extract unique dates for active sessions for the day selector
+    const activeSessions = data.filter(session => session.active === "yes");
+    const uniqueDates = [...new Set(activeSessions.map(session => session.date))];
     uniqueDates.sort(); // Sort chronologically
+
+    console.log(`Total sessions: ${data.length}`);
+    console.log(`Active sessions: ${activeSessions.length}`);
+    console.log(`Available days: ${uniqueDates.join(', ')}`);
+
     setAvailableDays(uniqueDates);
   }, []);
 
   // Apply filters when sessions, ticketFilter, or selectedDay changes
   useEffect(() => {
-    let filtered = [...sessions];
-    
+    // Start with sessions that are active
+    let filtered = sessions.filter(session => session.active === "yes");
+
     // Apply ticket type filter
     if (ticketFilter !== "All") {
-      filtered = filtered.filter(session => 
-        session.access === ticketFilter || 
+      filtered = filtered.filter(session =>
+        session.access === ticketFilter ||
         // Special case for Gold (which might include access to Premium and General)
         (ticketFilter === "Gold" && (session.access === "Premium" || session.access === "General"))
       );
@@ -47,6 +54,7 @@ export function AgendaDisplay() {
       return a.timerStartTime.localeCompare(b.timerStartTime);
     });
     
+    console.log(`Filtered sessions for ${selectedDay || 'all days'}: ${filtered.length}`);
     setFilteredSessions(filtered);
   }, [sessions, ticketFilter, selectedDay]);
 
