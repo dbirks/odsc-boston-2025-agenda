@@ -21,6 +21,12 @@ export function SessionCard({ session }: SessionCardProps) {
   // Get primary topic (first non-empty tag) for the collapsed view
   const primaryTopic = tagArray.length > 0 ? tagArray[0] : "";
 
+  // Truncate text function
+  const truncateText = (text: string, maxLength: number) => {
+    if (!text) return "";
+    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+  };
+
   return (
     <Card className="w-full mb-4 overflow-hidden transition-all duration-300">
       {isExpanded ? (
@@ -88,31 +94,41 @@ export function SessionCard({ session }: SessionCardProps) {
         // Compact collapsed view
         <CardHeader className="py-3">
           <div className="flex justify-between items-center">
-            <div className="flex-grow">
-              <h3 className="font-medium text-base">{session.talkTitle}</h3>
+            <div className="flex-grow overflow-hidden">
+              <h3 className="font-medium text-base truncate" title={session.talkTitle}>
+                {session.talkTitle}
+              </h3>
               <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
                 <span className="font-semibold">{session.displayStartTime}</span>
                 <span>•</span>
                 <span>{session.duration} min</span>
                 {session.subtrack && (
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">
-                    {session.subtrack}
+                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 max-w-16 overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
+                    {truncateText(session.subtrack, 10)}
                   </Badge>
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 ml-1 flex-shrink-0">
               {primaryTopic && (
-                <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 hidden sm:inline-flex">
-                  {primaryTopic}
+                <Badge 
+                  variant="outline" 
+                  className="text-[10px] px-1.5 py-0 h-4 hidden sm:inline-flex max-w-16 overflow-hidden text-ellipsis whitespace-nowrap"
+                  title={primaryTopic}
+                >
+                  {truncateText(primaryTopic, 10)}
                 </Badge>
               )}
-              <Badge variant={
-                session.access === "General" ? "default" :
-                session.access === "Premium" ? "secondary" :
-                session.access === "Platinum" ? "destructive" :
-                "outline"
-              } className="text-[10px] px-1.5 py-0 h-4">
+              <Badge 
+                variant={
+                  session.access === "General" ? "default" :
+                  session.access === "Premium" ? "secondary" :
+                  session.access === "Platinum" ? "destructive" :
+                  "outline"
+                } 
+                className="text-[10px] px-1.5 py-0 h-4 max-w-16 overflow-hidden text-ellipsis whitespace-nowrap"
+                title={session.access}
+              >
                 {session.access}
               </Badge>
             </div>
