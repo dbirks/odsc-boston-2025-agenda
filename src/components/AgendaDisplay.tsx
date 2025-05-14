@@ -91,6 +91,16 @@ export function AgendaDisplay() {
             <Badge variant="secondary" className="mr-2 text-base px-3 py-1">
               {formatDate(selectedDay)}
             </Badge>
+            <Badge
+              variant={
+                ticketFilter === "General" ? "default" :
+                ticketFilter === "Premium" ? "secondary" :
+                ticketFilter === "Platinum" ? "destructive" :
+                ticketFilter === "Gold" ? "outline" : "outline"
+              }
+              className="text-base px-3 py-1">
+              {ticketFilter}
+            </Badge>
           </h2>
         )}
         
