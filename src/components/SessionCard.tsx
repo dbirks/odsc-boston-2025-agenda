@@ -31,6 +31,7 @@ export function SessionCard({ session }: SessionCardProps) {
           <Badge variant={
             session.access === "General" ? "default" :
             session.access === "Premium" ? "secondary" :
+            session.access === "Platinum" ? "destructive" :
             "outline"
           }>{session.access}</Badge>
         </div>
@@ -45,8 +46,22 @@ export function SessionCard({ session }: SessionCardProps) {
       <CardContent className={`transition-all duration-300 ${isExpanded ? "max-h-[1000px]" : "max-h-20 overflow-hidden"}`}>
         <p className="whitespace-pre-line">{session.description}</p>
         
-        {tagArray.length > 0 && (
+        {isExpanded && (
           <div className="flex flex-wrap gap-2 mt-4">
+            {/* Show ticket type with appropriate styling */}
+            <Badge variant={
+              session.access === "General" ? "default" :
+              session.access === "Premium" ? "secondary" :
+              session.access === "Platinum" ? "destructive" :
+              "outline"
+            }>
+              {session.access} Access
+            </Badge>
+            
+            {/* Session difficulty */}
+            <Badge variant="outline" className="bg-gray-50">{session.difficulty}</Badge>
+            
+            {/* Topic tags */}
             {tagArray.map((tag, index) => (
               <Badge key={index} variant="outline">{tag}</Badge>
             ))}
