@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import { X } from "lucide-react";
 
 interface SessionCardProps {
@@ -292,15 +291,13 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
           </div>
         </CardHeader>
       )}
-      <CardFooter className="flex justify-center py-1 px-3 sm:px-6 border-t">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="text-xs h-6 py-0"
-        >
+      <CardFooter 
+        className="flex justify-center py-1 px-3 sm:px-6 border-t cursor-pointer hover:bg-gray-50 transition-colors" 
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <span className="text-xs font-medium text-center text-gray-600 w-full py-1">
           {isExpanded ? "Show Less (or click header to collapse)" : "Show More"}
-        </Button>
+        </span>
       </CardFooter>
     </Card>
   );
