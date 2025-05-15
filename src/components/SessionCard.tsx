@@ -256,7 +256,7 @@ export function SessionCard({ session }: SessionCardProps) {
               <h3 className="font-medium text-base truncate" title={session.title || session.talkTitle}>
                 {session.title || session.talkTitle}
               </h3>
-              <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-gray-500 mt-1">
+              <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-gray-500 mt-1 w-full">
                 <span className="font-semibold whitespace-nowrap">{session.displayStartTime} - {session.displayEndTime}</span>
                 <span className="text-xs mx-0.5 hidden sm:inline">•</span>
                 <span className="text-xs mx-0.5 sm:hidden">/</span>
@@ -269,9 +269,14 @@ export function SessionCard({ session }: SessionCardProps) {
                   </>
                 )}
                 {session.subtrack && (
-                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 max-w-16 overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
-                    {truncateText(session.subtrack, 10)}
-                  </Badge>
+                  <>
+                    <span className="text-xs mx-0.5 hidden sm:inline">•</span>
+                    <span className="text-xs mx-0.5 sm:hidden">/</span>
+                    <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 min-w-0 max-w-full sm:max-w-none overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
+                      <span className="hidden sm:inline">{session.subtrack}</span>
+                      <span className="sm:hidden">{truncateText(session.subtrack, 15)}</span>
+                    </Badge>
+                  </>
                 )}
               </div>
             </div>
