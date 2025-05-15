@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { SessionItem } from "../types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -21,8 +20,7 @@ export function SessionCard({ session }: SessionCardProps) {
         session.topicTag4
       ].filter(tag => tag);
 
-  // Get primary topic (first non-empty tag) for the collapsed view
-  const primaryTopic = tagArray.length > 0 ? tagArray[0] : "";
+  // Topic array is now used in the expanded view only
 
   // Truncate text function
   const truncateText = (text: string, maxLength: number) => {
@@ -47,10 +45,12 @@ export function SessionCard({ session }: SessionCardProps) {
                 </CardDescription>
               </div>
               <Badge variant={
-                session.access === "General" ? "default" :
-                session.access === "Premium" ? "secondary" :
                 session.access === "Platinum" ? "destructive" :
                 session.access === "Gold" ? "gold" :
+                session.access === "Silver" ? "secondary" :
+                session.access === "VIP" ? "default" :
+                session.access === "Bootcamp" ? "secondary" :
+                session.access === "Expo" ? "outline" :
                 "outline"
               }>{session.access}</Badge>
             </div>
@@ -153,14 +153,16 @@ export function SessionCard({ session }: SessionCardProps) {
                 <span className="text-xs text-gray-500 my-auto mr-1">Access:</span>
                 {/* If we have the new ticketTypes array, use it */}
                 {session.ticketTypes && session.ticketTypes.length > 0 ? (
-                  session.ticketTypes.map((ticketType, index) => (
+                  session.ticketTypes.map((ticketType: string, index: number) => (
                     <Badge 
                       key={index}
                       variant={
-                        ticketType === "General" ? "default" :
-                        ticketType === "Premium" ? "secondary" :
                         ticketType === "Platinum" ? "destructive" :
                         ticketType === "Gold" ? "gold" :
+                        ticketType === "Silver" ? "secondary" :
+                        ticketType === "VIP" ? "default" :
+                        ticketType === "Bootcamp" ? "secondary" :
+                        ticketType === "Expo" ? "outline" :
                         "outline"
                       }
                       className="text-xs"
@@ -172,10 +174,12 @@ export function SessionCard({ session }: SessionCardProps) {
                   // Fallback to the old access field
                   <Badge 
                     variant={
-                      session.access === "General" ? "default" :
-                      session.access === "Premium" ? "secondary" :
                       session.access === "Platinum" ? "destructive" :
                       session.access === "Gold" ? "gold" :
+                      session.access === "Silver" ? "secondary" :
+                      session.access === "VIP" ? "default" :
+                      session.access === "Bootcamp" ? "secondary" :
+                      session.access === "Expo" ? "outline" :
                       "outline"
                     }
                   >
@@ -200,7 +204,7 @@ export function SessionCard({ session }: SessionCardProps) {
               )}
               
               {/* Topic tags */}
-              {tagArray.map((tag, index) => (
+              {tagArray.map((tag: string | undefined, index: number) => tag && (
                 <Badge key={index} variant="outline">{tag}</Badge>
               ))}
             </div>

@@ -54,13 +54,21 @@ export function DaySelector({ availableDays, onDayChange }: DaySelectorProps) {
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'America/New_York' });
   };
 
+  // Handler to ensure clean day selection
+  const handleDaySelect = (day: string) => {
+    // Only update if actually changing days
+    if (day !== selectedDay) {
+      setSelectedDay(day);
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-2 mb-6">
       {availableDays.map((day) => (
         <Button
           key={day}
           variant={selectedDay === day ? "default" : "outline"}
-          onClick={() => setSelectedDay(day)}
+          onClick={() => handleDaySelect(day)}
           className="px-6"
         >
           {formatDisplayDate(day)}

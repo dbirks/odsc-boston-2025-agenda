@@ -5,7 +5,7 @@ interface FilterBarProps {
   onFilterChange: (ticketType: TicketType) => void;
 }
 
-const TICKET_TYPES: TicketType[] = ["All", "General", "Premium", "Platinum", "Gold"];
+const TICKET_TYPES: TicketType[] = ["All", "Platinum", "Gold", "Silver", "VIP", "Bootcamp", "Expo"];
 const LOCAL_STORAGE_KEY = "odsc-ticket-type-filter";
 
 export function FilterBar({ onFilterChange }: FilterBarProps) {

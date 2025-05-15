@@ -111,4 +111,4 @@ declare interface DateItem {
   day: string;
 }
 
-declare type TicketType = "All" | "General" | "Premium" | "Platinum" | "Gold" | "Silver" | "Expo" | "VIP" | "Bootcamp" | "2-Day Business" | "3-Day Business";
+declare type TicketType = "All" | "Platinum" | "Gold" | "Silver" | "VIP" | "Bootcamp" | "Expo" | "2-Day Business" | "3-Day Business" | "Invited Attendees Only" | "Speakers";
