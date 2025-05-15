@@ -61,8 +61,10 @@ export function SessionCard({ session }: SessionCardProps) {
                   session.access === "Gold" ? "gold" :
                   session.access === "Silver" ? "secondary" :
                   session.access === "VIP" ? "default" :
-                  session.access === "Bootcamp" ? "secondary" :
-                  session.access === "Expo" ? "outline" :
+                  session.access === "Bootcamp" ? "bootcamp" :
+                  session.access === "Expo" ? "expo" :
+                  session.access === "2-Day Business" ? "twoDayBusiness" :
+                  session.access === "3-Day Business" ? "threeDayBusiness" :
                   "outline"
                 }>{session.access}</Badge>
               </div>
@@ -185,8 +187,10 @@ export function SessionCard({ session }: SessionCardProps) {
                           ticketType === "Gold" ? "gold" :
                           ticketType === "Silver" ? "secondary" :
                           ticketType === "VIP" ? "default" :
-                          ticketType === "Bootcamp" ? "secondary" :
-                          ticketType === "Expo" ? "outline" :
+                          ticketType === "Bootcamp" ? "bootcamp" :
+                          ticketType === "Expo" ? "expo" :
+                          ticketType === "2-Day Business" ? "twoDayBusiness" :
+                          ticketType === "3-Day Business" ? "threeDayBusiness" :
                           "outline"
                         }
                         className="text-xs"
@@ -202,8 +206,10 @@ export function SessionCard({ session }: SessionCardProps) {
                         session.access === "Gold" ? "gold" :
                         session.access === "Silver" ? "secondary" :
                         session.access === "VIP" ? "default" :
-                        session.access === "Bootcamp" ? "secondary" :
-                        session.access === "Expo" ? "outline" :
+                        session.access === "Bootcamp" ? "bootcamp" :
+                        session.access === "Expo" ? "expo" :
+                        session.access === "2-Day Business" ? "twoDayBusiness" :
+                        session.access === "3-Day Business" ? "threeDayBusiness" :
                         "outline"
                       }
                     >

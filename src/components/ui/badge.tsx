@@ -8,14 +8,22 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-blue-500 text-white hover:bg-blue-600",
+          "border-transparent bg-blue-500 text-white hover:bg-blue-600", // VIP
         secondary:
-          "border-transparent bg-emerald-600 text-white hover:bg-emerald-700",
+          "border-transparent bg-slate-400 text-white hover:bg-slate-500", // Silver
         destructive:
-          "border-transparent bg-slate-400 text-white hover:bg-slate-500",
+          "border-transparent bg-gray-800 text-white hover:bg-gray-900", // Platinum
         gold:
-          "border-amber-400 bg-amber-100 text-amber-800 hover:bg-amber-200",
-        outline: "border-gray-300 text-gray-700 bg-white",
+          "border-amber-400 bg-amber-100 text-amber-800 hover:bg-amber-200", // Gold
+        expo:
+          "border-green-400 bg-green-100 text-green-800 hover:bg-green-200", // Expo
+        bootcamp:
+          "border-purple-400 bg-purple-100 text-purple-800 hover:bg-purple-200", // Bootcamp
+        twoDayBusiness:
+          "border-cyan-400 bg-cyan-100 text-cyan-800 hover:bg-cyan-200", // 2-Day Business
+        threeDayBusiness:
+          "border-indigo-400 bg-indigo-100 text-indigo-800 hover:bg-indigo-200", // 3-Day Business
+        outline: "border-gray-300 text-gray-700 bg-white", // Default fallback
       },
     },
     defaultVariants: {

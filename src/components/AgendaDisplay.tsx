@@ -176,8 +176,11 @@ export function AgendaDisplay() {
                 ticketFilter === "Gold" ? "gold" : 
                 ticketFilter === "Silver" ? "secondary" :
                 ticketFilter === "VIP" ? "default" :
-                ticketFilter === "Bootcamp" ? "secondary" :
-                ticketFilter === "Expo" ? "outline" : "outline"
+                ticketFilter === "Bootcamp" ? "bootcamp" :
+                ticketFilter === "Expo" ? "expo" :
+                ticketFilter === "2-Day Business" ? "twoDayBusiness" :
+                ticketFilter === "3-Day Business" ? "threeDayBusiness" :
+                "outline"
               }
               className="text-base px-3 py-1">
               {ticketFilter}
