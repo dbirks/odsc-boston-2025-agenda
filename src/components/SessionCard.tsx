@@ -57,14 +57,15 @@ export function SessionCard({ session }: SessionCardProps) {
                   <X size={18} />
                 </button>
                 <Badge variant={
-                session.access === "Platinum" ? "destructive" :
-                session.access === "Gold" ? "gold" :
-                session.access === "Silver" ? "secondary" :
-                session.access === "VIP" ? "default" :
-                session.access === "Bootcamp" ? "secondary" :
-                session.access === "Expo" ? "outline" :
-                "outline"
-              }>{session.access}</Badge>
+                  session.access === "Platinum" ? "destructive" :
+                  session.access === "Gold" ? "gold" :
+                  session.access === "Silver" ? "secondary" :
+                  session.access === "VIP" ? "default" :
+                  session.access === "Bootcamp" ? "secondary" :
+                  session.access === "Expo" ? "outline" :
+                  "outline"
+                }>{session.access}</Badge>
+              </div>
             </div>
             <div className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500 mt-2">
               <span className="whitespace-nowrap">{session.displayStartTime} - {session.displayEndTime}</span>
