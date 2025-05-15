@@ -45,6 +45,8 @@ You should commit and push changes frequently:
 - After making significant UI changes
 - After completing a logical chunk of work
 
+IMPORTANT: Always push after committing changes to ensure the remote repository stays up-to-date.
+
 ## Project Architecture
 
 ### Overview
