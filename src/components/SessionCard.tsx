@@ -87,11 +87,6 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
               <span className="text-xs mx-0.5 hidden sm:inline">•</span>
               <span className="text-xs mx-0.5 sm:hidden">/</span>
               <span className="whitespace-nowrap">{session.duration} min</span>
-              {isPassed && (
-                <Badge variant="outline" className="ml-1 text-xs bg-gray-200 text-gray-500 border-gray-300">
-                  Past Session
-                </Badge>
-              )}
               {session.location && (
                 <>
                   <span className="text-xs mx-0.5 hidden sm:inline">•</span>
@@ -286,11 +281,6 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                 <span className="text-xs mx-0.5 hidden sm:inline">•</span>
                 <span className="text-xs mx-0.5 sm:hidden">/</span>
                 <span className="whitespace-nowrap">{session.duration} min</span>
-                {isPassed && (
-                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 ml-1 bg-gray-200 text-gray-500 border-gray-300">
-                    Past
-                  </Badge>
-                )}
                 {session.location && (
                   <>
                     <span className="text-xs mx-0.5 hidden sm:inline">•</span>
