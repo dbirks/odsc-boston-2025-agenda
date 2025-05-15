@@ -219,17 +219,8 @@ export function SessionCard({ session }: SessionCardProps) {
                 <span>•</span>
                 <span>{session.duration} min</span>
                 {session.subtrack && (
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 max-w-16 overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
-                    {truncateText(session.subtrack, 10)}
-                  </Badge>
-                )}
-                {primaryTopic && (
-                  <Badge 
-                    variant="outline" 
-                    className="text-[10px] px-1.5 py-0 h-4 max-w-32 overflow-hidden text-ellipsis whitespace-nowrap"
-                    title={primaryTopic}
-                  >
-                    {truncateText(primaryTopic, 20)}
+                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 max-w-20 overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
+                    {truncateText(session.subtrack, 15)}
                   </Badge>
                 )}
               </div>
