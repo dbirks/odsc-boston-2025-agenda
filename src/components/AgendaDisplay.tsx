@@ -170,7 +170,7 @@ export function AgendaDisplay() {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-1 sm:px-3">
-      <h1 className="text-3xl font-bold mb-2 text-center">Unofficial ODSC Boston 2025 Agenda</h1>
+      <h1 className="text-3xl font-bold mb-2 text-center dark:text-white">Unofficial ODSC Boston 2025 Agenda</h1>
       <LastUpdatedIndicator />
       
       <div className="space-y-2">
@@ -180,7 +180,7 @@ export function AgendaDisplay() {
       
       <div className="mt-6">
         {selectedDay && (
-          <h2 className="text-xl font-semibold mb-4 flex items-center sticky top-0 bg-white z-10 py-2">
+          <h2 className="text-xl font-semibold mb-4 flex items-center sticky top-0 bg-white dark:bg-gray-900 z-10 py-2">
             <Badge variant="default" className="mr-2 text-base px-3 py-1">
               {formatDate(selectedDay)}
             </Badge>
@@ -221,7 +221,7 @@ export function AgendaDisplay() {
       
       {filteredSessions.length === 0 && (
         <div className="text-center py-10">
-          <p className="text-gray-500">No sessions found matching your filters.</p>
+          <p className="text-gray-500 dark:text-gray-400">No sessions found matching your filters.</p>
         </div>
       )}
     </div>

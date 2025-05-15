@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unofficial ODSC Boston 2025 Agenda</title>
     <script defer data-domain="odsc.boston" src="https://plausible.io/js/script.js"></script>
+    <!-- Preload dark mode script to avoid flash -->
+    <script>
+      // Immediately check and apply theme on page load
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
