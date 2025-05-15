@@ -223,18 +223,16 @@ export function SessionCard({ session }: SessionCardProps) {
                     {truncateText(session.subtrack, 10)}
                   </Badge>
                 )}
+                {primaryTopic && (
+                  <Badge 
+                    variant="outline" 
+                    className="text-[10px] px-1.5 py-0 h-4 max-w-32 overflow-hidden text-ellipsis whitespace-nowrap"
+                    title={primaryTopic}
+                  >
+                    {truncateText(primaryTopic, 20)}
+                  </Badge>
+                )}
               </div>
-            </div>
-            <div className="flex items-center gap-1.5 ml-1 flex-shrink-0">
-              {primaryTopic && (
-                <Badge 
-                  variant="outline" 
-                  className="text-[10px] px-1.5 py-0 h-4 sm:inline-flex max-w-32 overflow-hidden text-ellipsis whitespace-nowrap"
-                  title={primaryTopic}
-                >
-                  {truncateText(primaryTopic, 20)}
-                </Badge>
-              )}
             </div>
           </div>
         </CardHeader>
