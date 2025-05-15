@@ -47,11 +47,11 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
       {isExpanded ? (
         // Expanded view - with full details
         <>
-          <CardHeader className={`px-3 sm:px-6 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(false)}>
+          <CardHeader className={`px-3 py-4 sm:px-6 sm:py-5 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(false)}>
             <div className="flex justify-between items-start relative">
-              <div>
-                <CardTitle className="tracking-normal">{session.title || session.talkTitle}</CardTitle>
-                <CardDescription className="mt-1 tracking-normal">
+              <div className="pr-2">
+                <CardTitle className="tracking-wide leading-snug text-base sm:text-lg">{session.title || session.talkTitle}</CardTitle>
+                <CardDescription className="mt-2 tracking-normal leading-relaxed">
                   {session.speakers && session.speakers.length > 0 
                     ? `${session.speakers[0].name} (${session.speakers[0].jobTitle}) - ${session.speakers[0].company}` 
                     : `${session.speakerName || ''} ${session.speakerTitle ? `(${session.speakerTitle})` : ''} ${session.speakerCompany ? `- ${session.speakerCompany}` : ''}`
@@ -64,7 +64,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                     e.stopPropagation();
                     setIsExpanded(false);
                   }} 
-                  className="text-gray-400 hover:text-gray-600 focus:outline-none p-1 rounded-full hover:bg-gray-100"
+                  className="text-gray-400 hover:text-gray-600 focus:outline-none p-1.5 rounded-full hover:bg-gray-100"
                   aria-label="Close session details"
                 >
                   <X size={18} />
