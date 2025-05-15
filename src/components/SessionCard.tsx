@@ -148,16 +148,41 @@ export function SessionCard({ session }: SessionCardProps) {
             )}
             
             <div className="flex flex-wrap gap-2 mt-4">
-              {/* Show ticket type with appropriate styling */}
-              <Badge variant={
-                session.access === "General" ? "default" :
-                session.access === "Premium" ? "secondary" :
-                session.access === "Platinum" ? "destructive" :
-                session.access === "Gold" ? "gold" :
-                "outline"
-              }>
-                {session.access} Access
-              </Badge>
+              {/* Show ticket types */}
+              <div className="flex flex-wrap gap-1 mb-1">
+                <span className="text-xs text-gray-500 my-auto mr-1">Access:</span>
+                {/* If we have the new ticketTypes array, use it */}
+                {session.ticketTypes && session.ticketTypes.length > 0 ? (
+                  session.ticketTypes.map((ticketType, index) => (
+                    <Badge 
+                      key={index}
+                      variant={
+                        ticketType === "General" ? "default" :
+                        ticketType === "Premium" ? "secondary" :
+                        ticketType === "Platinum" ? "destructive" :
+                        ticketType === "Gold" ? "gold" :
+                        "outline"
+                      }
+                      className="text-xs"
+                    >
+                      {ticketType}
+                    </Badge>
+                  ))
+                ) : (
+                  // Fallback to the old access field
+                  <Badge 
+                    variant={
+                      session.access === "General" ? "default" :
+                      session.access === "Premium" ? "secondary" :
+                      session.access === "Platinum" ? "destructive" :
+                      session.access === "Gold" ? "gold" :
+                      "outline"
+                    }
+                  >
+                    {session.access}
+                  </Badge>
+                )}
+              </div>
               
               {/* Session type */}
               {session.subtrack && (
@@ -204,25 +229,12 @@ export function SessionCard({ session }: SessionCardProps) {
               {primaryTopic && (
                 <Badge 
                   variant="outline" 
-                  className="text-[10px] px-1.5 py-0 h-4 hidden sm:inline-flex max-w-16 overflow-hidden text-ellipsis whitespace-nowrap"
+                  className="text-[10px] px-1.5 py-0 h-4 sm:inline-flex max-w-32 overflow-hidden text-ellipsis whitespace-nowrap"
                   title={primaryTopic}
                 >
-                  {truncateText(primaryTopic, 10)}
+                  {truncateText(primaryTopic, 20)}
                 </Badge>
               )}
-              <Badge 
-                variant={
-                  session.access === "General" ? "default" :
-                  session.access === "Premium" ? "secondary" :
-                  session.access === "Platinum" ? "destructive" :
-                  session.access === "Gold" ? "gold" :
-                  "outline"
-                } 
-                className="text-[10px] px-1.5 py-0 h-4 max-w-16 overflow-hidden text-ellipsis whitespace-nowrap"
-                title={session.access}
-              >
-                {session.access}
-              </Badge>
             </div>
           </div>
         </CardHeader>
