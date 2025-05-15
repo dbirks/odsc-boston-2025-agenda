@@ -20,14 +20,15 @@ export function ThemeToggle() {
     // Get current state
     const newIsDark = !isDark;
     
-    // Update DOM
+    // Update DOM by adding/removing the dark class
+    // This works with Tailwind v4's class strategy for dark mode
     if (newIsDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
     
-    // Save preference
+    // Save preference to localStorage
     localStorage.setItem(THEME_KEY, newIsDark ? 'dark' : 'light');
     
     // Update state
