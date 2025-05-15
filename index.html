@@ -8,7 +8,8 @@
     <script defer data-domain="odsc.boston" src="https://plausible.io/js/script.js"></script>
     <!-- Preload dark mode script to avoid flash -->
     <script>
-      // Immediately check and apply theme on page load
+      // Immediately check and apply theme on page load to prevent flash
+      // This runs before React loads
       (function() {
         const storedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

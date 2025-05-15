@@ -2,55 +2,46 @@ import { useState, useEffect } from 'react';
 import { Moon, Sun } from 'lucide-react';
 
 export function ThemeToggle() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-
-  // Initialize from localStorage on component mount
+  // This state represents the current theme
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  
+  // Initialize theme from localStorage or system preference
   useEffect(() => {
-    const updateThemeState = () => {
-      // Check if dark class is on the html element
-      const isDark = document.documentElement.classList.contains('dark');
-      setIsDarkMode(isDark);
-    };
-
-    // Initial state
-    updateThemeState();
-
-    // Set up a mutation observer to track class changes on html element
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.attributeName === 'class') {
-          updateThemeState();
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, { attributes: true });
-
-    // Cleanup
-    return () => observer.disconnect();
+    // Check localStorage first
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      setTheme(savedTheme);
+    } else {
+      // If no saved preference, check system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
   }, []);
-
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    
-    if (newMode) {
+  
+  // Apply theme changes to the document
+  useEffect(() => {
+    if (theme === 'dark') {
       document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
     }
     
-    // State will be updated by the mutation observer
+    // Save to localStorage
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Function to toggle the theme
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   return (
     <button
       onClick={toggleTheme}
       className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors hover:bg-gray-300 dark:hover:bg-gray-600"
-      aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={theme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {isDarkMode ? (
+      {theme === 'dark' ? (
         <Sun size={16} className="text-yellow-400" />
       ) : (
         <Moon size={16} className="text-gray-700" />
