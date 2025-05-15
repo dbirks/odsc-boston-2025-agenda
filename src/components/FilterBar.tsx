@@ -37,7 +37,7 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
   }, []);
 
   return (
-    <div className="flex justify-center mb-3" ref={dropdownRef}>
+    <div className="flex justify-center mb-3 relative z-20" ref={dropdownRef}>
       <div className="relative">
         <Button 
           onClick={() => setIsOpen(!isOpen)} 
@@ -50,7 +50,7 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
         </Button>
         
         {isOpen && (
-          <div className="absolute z-10 mt-1 min-w-full w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 left-0">
+          <div className="absolute z-20 mt-1 min-w-full w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 left-0">
             <div className="py-1 grid gap-1">
               {TICKET_TYPES.map((type) => (
                 <Button
