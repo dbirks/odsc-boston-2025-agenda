@@ -12,10 +12,10 @@ interface SessionCardProps {
 export function SessionCard({ session, isPassed = false }: SessionCardProps) {
   // Extra CSS classes for when the session has passed
   const passedClasses = isPassed ? {
-    card: 'bg-gray-50',
+    card: 'bg-gray-100',
     text: 'text-gray-600',
     badge: 'opacity-60',
-    header: 'bg-gray-50 hover:bg-gray-100'
+    header: 'bg-gray-100 hover:bg-gray-200'
   } : {
     card: '',
     text: '',
@@ -88,7 +88,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
               <span className="text-xs mx-0.5 sm:hidden">/</span>
               <span className="whitespace-nowrap">{session.duration} min</span>
               {isPassed && (
-                <Badge variant="outline" className="ml-1 text-xs bg-gray-100 text-gray-500 border-gray-200">
+                <Badge variant="outline" className="ml-1 text-xs bg-gray-200 text-gray-500 border-gray-300">
                   Past Session
                 </Badge>
               )}
@@ -287,7 +287,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                 <span className="text-xs mx-0.5 sm:hidden">/</span>
                 <span className="whitespace-nowrap">{session.duration} min</span>
                 {isPassed && (
-                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 ml-1 bg-gray-100 text-gray-500 border-gray-200">
+                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 ml-1 bg-gray-200 text-gray-500 border-gray-300">
                     Past
                   </Badge>
                 )}
