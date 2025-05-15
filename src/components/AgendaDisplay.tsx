@@ -3,7 +3,7 @@ import { FilterBar } from "./FilterBar";
 import { SessionCard } from "./SessionCard";
 import { DaySelector } from "./DaySelector";
 import { LastUpdatedIndicator } from "./LastUpdatedIndicator";
-import agendaData from "../../data/agenda.json";
+import rawAgendaData from "../../data/agenda.json";
 import { Badge } from "./ui/badge";
 
 export function AgendaDisplay() {
@@ -15,33 +15,89 @@ export function AgendaDisplay() {
 
   // Load and parse JSON data
   useEffect(() => {
-    const data = agendaData as SessionItem[];
-    setSessions(data);
+    // Handle the new data format
+    const apiResponse = rawAgendaData as unknown as APIResponse;
+    
+    // Extract sessions and map to compatible format if needed
+    const sessionData = apiResponse.success && apiResponse.data ? 
+      apiResponse.data.sessions.map(processSession) : [];
+    
+    setSessions(sessionData);
 
-    // Extract unique dates for active sessions for the day selector
-    const activeSessions = data.filter(session => session.active === "yes");
-    const uniqueDates = [...new Set(activeSessions.map(session => session.date))];
-    uniqueDates.sort(); // Sort chronologically
-
-    console.log(`Total sessions: ${data.length}`);
-    console.log(`Active sessions: ${activeSessions.length}`);
+    // Extract unique dates from the data structure
+    const uniqueDates = apiResponse.success && apiResponse.data?.dates ? 
+      apiResponse.data.dates.map(date => date.key) : [];
+    
+    console.log(`Total sessions: ${sessionData.length}`);
     console.log(`Available days: ${uniqueDates.join(', ')}`);
 
     setAvailableDays(uniqueDates);
+    
+    // Set default day if provided by API
+    if (apiResponse.success && apiResponse.data?.dateIndex !== undefined && 
+        apiResponse.data.dates && apiResponse.data.dates.length > 0) {
+      const defaultIndex = apiResponse.data.dateIndex;
+      if (apiResponse.data.dates[defaultIndex]) {
+        setSelectedDay(apiResponse.data.dates[defaultIndex].key);
+      }
+    }
   }, []);
+
+  // Process session to ensure compatibility with UI
+  const processSession = (session: SessionItem): SessionItem => {
+    // Map new fields to old fields for compatibility
+    const processed: SessionItem = {
+      ...session,
+      _id: session.uniqueId,
+      _updatedAt: new Date().toISOString(), // Not available in new format
+      talkTitle: session.title || session.talkTitle,
+      timerStartTime: session.startTime || session.timerStartTime,
+      // Access indicates ticket type level - we'll use the first in the array
+      access: session.ticketTypes && session.ticketTypes.length > 0 ? 
+        session.ticketTypes[0] : 'General',
+      // For filtering purposes, set active to "yes" for all sessions
+      active: session.isHighlighted === false ? "yes" : "no",
+      difficulty: session.sessionLevel || session.difficulty,
+      subtrack: session.sessionType || session.subtrack,
+    };
+    
+    // Extract topic tags from the new tags array
+    if (session.tags && session.tags.length > 0) {
+      processed.topicTag1 = session.tags[0];
+      if (session.tags.length > 1) processed.topicTag2 = session.tags[1];
+      if (session.tags.length > 2) processed.topicTag3 = session.tags[2];
+      if (session.tags.length > 3) processed.topicTag4 = session.tags[3];
+    }
+    
+    // Speaker information
+    if (session.speakers && session.speakers.length > 0) {
+      const speaker = session.speakers[0];
+      processed.speakerName = speaker.name;
+      processed.speakerTitle = speaker.jobTitle;
+      processed.speakerCompany = speaker.company;
+    }
+    
+    return processed;
+  };
 
   // Apply filters when sessions, ticketFilter, or selectedDay changes
   useEffect(() => {
-    // Start with sessions that are active
-    let filtered = sessions.filter(session => session.active === "yes");
+    // Start with all sessions since we're setting active="yes" in processing
+    let filtered = [...sessions];
 
     // Apply ticket type filter
     if (ticketFilter !== "All") {
-      filtered = filtered.filter(session =>
-        session.access === ticketFilter ||
-        // Special case for Gold (which might include access to Premium and General)
-        (ticketFilter === "Gold" && (session.access === "Premium" || session.access === "General"))
-      );
+      filtered = filtered.filter(session => {
+        // Try to match using the new ticketTypes array first
+        if (session.ticketTypes && session.ticketTypes.includes(ticketFilter)) {
+          return true;
+        }
+        
+        // Fall back to the old access field
+        return session.access === ticketFilter ||
+          // Special case for Gold (which might include access to Premium and General)
+          (ticketFilter === "Gold" && (session.access === "Premium" || session.access === "General"));
+      });
     }
     
     // Apply day filter
@@ -51,7 +107,10 @@ export function AgendaDisplay() {
     
     // Sort by start time
     filtered.sort((a, b) => {
-      return a.timerStartTime.localeCompare(b.timerStartTime);
+      if (a.utcStartTimeMilliseconds && b.utcStartTimeMilliseconds) {
+        return a.utcStartTimeMilliseconds - b.utcStartTimeMilliseconds;
+      }
+      return (a.timerStartTime || '').localeCompare(b.timerStartTime || '');
     });
     
     console.log(`Filtered sessions for ${selectedDay || 'all days'}: ${filtered.length}`);

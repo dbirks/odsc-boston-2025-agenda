@@ -11,12 +11,15 @@ interface SessionCardProps {
 export function SessionCard({ session }: SessionCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const tagArray = [
-    session.topicTag1,
-    session.topicTag2,
-    session.topicTag3,
-    session.topicTag4
-  ].filter(tag => tag);
+  // Use the tags array from the new format if available, otherwise use the old tag fields
+  const tagArray = session.tags && session.tags.length > 0 
+    ? session.tags 
+    : [
+        session.topicTag1,
+        session.topicTag2,
+        session.topicTag3,
+        session.topicTag4
+      ].filter(tag => tag);
 
   // Get primary topic (first non-empty tag) for the collapsed view
   const primaryTopic = tagArray.length > 0 ? tagArray[0] : "";
@@ -35,9 +38,12 @@ export function SessionCard({ session }: SessionCardProps) {
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle>{session.talkTitle}</CardTitle>
+                <CardTitle>{session.title || session.talkTitle}</CardTitle>
                 <CardDescription className="mt-1">
-                  {session.speakerName} ({session.speakerTitle}) - {session.speakerCompany}
+                  {session.speakers && session.speakers.length > 0 
+                    ? `${session.speakers[0].name} (${session.speakers[0].jobTitle}) - ${session.speakers[0].company}` 
+                    : `${session.speakerName || ''} ${session.speakerTitle ? `(${session.speakerTitle})` : ''} ${session.speakerCompany ? `- ${session.speakerCompany}` : ''}`
+                  }
                 </CardDescription>
               </div>
               <Badge variant={
@@ -180,8 +186,8 @@ export function SessionCard({ session }: SessionCardProps) {
         <CardHeader className="py-3">
           <div className="flex justify-between items-center">
             <div className="flex-grow overflow-hidden">
-              <h3 className="font-medium text-base truncate" title={session.talkTitle}>
-                {session.talkTitle}
+              <h3 className="font-medium text-base truncate" title={session.title || session.talkTitle}>
+                {session.title || session.talkTitle}
               </h3>
               <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
                 <span className="font-semibold">{session.displayStartTime}</span>
