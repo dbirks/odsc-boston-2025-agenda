@@ -1,15 +1,17 @@
 # ODSC Boston 2025 Agenda
 
-A simple, responsive conference agenda viewer for ODSC Boston 2025.
+A simple, responsive conference agenda viewer for ODSC Boston 2025, built with Claude Code.
 
 ## Features
 
 - View the complete conference agenda
-- Filter sessions by ticket type (General, Premium, Platinum, Gold)
+- Filter sessions by ticket type (Platinum, Gold, Silver, VIP, etc.)
 - Toggle between conference days with easy day selector
+- Color-coded session type badges for quick identification
 - Expand session cards to see detailed information
 - Preferences saved in browser local storage
 - Responsive design works on mobile and desktop
+- Visual distinction for past sessions
 
 ## Development
 
@@ -36,34 +38,30 @@ To build for production:
 pnpm build
 ```
 
-## Automated Data Updates
+### Deployment
 
-This repository includes a GitHub Action that automatically fetches updated agenda data every 30 minutes.
-
-### Required Secrets
-
-To enable the automated data updates, you need to add the following secrets to your GitHub repository:
-
-- `AGENDA_API_URL`: The URL to fetch the agenda data from
-
-And depending on your API's authentication method, one of the following:
-
-- `AGENDA_API_TOKEN`: (Optional) Authentication token (Bearer token or Basic auth)
-- `AGENDA_API_KEY`: (Optional) API key value for header-based authentication
-- `AGENDA_API_KEY_HEADER`: (Optional) Custom header name for API key (defaults to 'x-api-key')
-
-### How It Works
-
-1. The action runs every 30 minutes
-2. It fetches data from the specified API
-3. It validates the data to ensure it's properly formatted
-4. If the data has changed, it updates the repository
-5. The changes are automatically committed and pushed
+This project is deployed on Vercel. The production site automatically updates when changes are pushed to the main branch.
 
 ## Technologies
 
 - React 19
 - TypeScript
-- Tailwind CSS
-- Vite
-- DaisyUI components
+- Tailwind CSS with responsive design
+- Vite for fast development and builds
+- ShadCN UI components
+- Lucide React icons
+- Plausible Analytics
+
+## Development Notes
+
+This project was built with the assistance of [Claude Code](https://claude.ai/code), Anthropic's AI coding assistant. Claude Code was used for:
+
+- Implementing unique color-coded badges for session types
+- Optimizing the responsive design for mobile devices
+- Creating an efficient filtering system
+- Adding the GitHub repository link in the footer
+- General code improvements and bug fixes
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
