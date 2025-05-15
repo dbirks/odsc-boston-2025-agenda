@@ -51,15 +51,15 @@ interface SessionCardProps {
 export function SessionCard({ session, isPassed = false }: SessionCardProps) {
   // Extra CSS classes for when the session has passed
   const passedClasses = isPassed ? {
-    card: 'bg-gray-100',
-    text: 'text-gray-600',
+    card: 'bg-gray-100 dark:bg-gray-800',
+    text: 'text-gray-600 dark:text-gray-400',
     badge: 'opacity-60',
-    header: 'bg-gray-100 hover:bg-gray-200'
+    header: 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
   } : {
     card: '',
     text: '',
     badge: '',
-    header: 'hover:bg-gray-50'
+    header: 'hover:bg-gray-50 dark:hover:bg-gray-800'
   };
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -82,7 +82,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
   };
 
   return (
-    <Card className={`w-full mb-3 overflow-hidden transition-all duration-300 shadow-sm ${passedClasses.card}`}>
+    <Card className={`w-full mb-3 overflow-hidden transition-all duration-300 shadow-sm dark:border-gray-700 dark:text-gray-200 ${passedClasses.card}`}>
       {isExpanded ? (
         // Expanded view - with full details
         <>
@@ -110,7 +110,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                 </button>
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500 mt-2">
+            <div className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500 dark:text-gray-400 mt-2">
               <span className="whitespace-nowrap">{session.displayStartTime} - {session.displayEndTime}</span>
               <span className="text-xs mx-0.5 hidden sm:inline">•</span>
               <span className="text-xs mx-0.5 sm:hidden">/</span>
@@ -304,7 +304,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
               <h3 className="font-medium text-base line-clamp-2 sm:truncate tracking-normal" title={session.title || session.talkTitle}>
                 {session.title || session.talkTitle}
               </h3>
-              <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-gray-500 mt-1 w-full tracking-normal">
+              <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-gray-500 dark:text-gray-400 mt-1 w-full tracking-normal">
                 <span className="font-semibold whitespace-nowrap tracking-normal">{session.displayStartTime} - {session.displayEndTime}</span>
                 <span className="text-xs mx-0.5 hidden sm:inline">•</span>
                 <span className="text-xs mx-0.5 sm:hidden">/</span>
@@ -335,10 +335,10 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
         </CardHeader>
       )}
       <CardFooter 
-        className="flex justify-center py-1 px-4 sm:px-6 border-t cursor-pointer hover:bg-gray-50 transition-colors" 
+        className="flex justify-center py-1 px-4 sm:px-6 border-t dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" 
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <span className="text-xs font-medium text-center text-gray-600 w-full py-1">
+        <span className="text-xs font-medium text-center text-gray-600 dark:text-gray-400 w-full py-1">
           {isExpanded ? "Show Less (or click header to collapse)" : "Show More"}
         </span>
       </CardFooter>
