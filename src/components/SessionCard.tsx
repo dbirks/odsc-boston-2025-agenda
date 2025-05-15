@@ -10,6 +10,18 @@ interface SessionCardProps {
 }
 
 export function SessionCard({ session, isPassed = false }: SessionCardProps) {
+  // Extra CSS classes for when the session has passed
+  const passedClasses = isPassed ? {
+    card: 'bg-gray-50 border-gray-200',
+    text: 'text-gray-600',
+    badge: 'opacity-60',
+    header: 'bg-gray-50 hover:bg-gray-100'
+  } : {
+    card: '',
+    text: '',
+    badge: '',
+    header: 'hover:bg-gray-50'
+  };
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Use the tags array from the new format if available, otherwise use the old tag fields
@@ -31,11 +43,11 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
   };
 
   return (
-    <Card className={`w-full mb-3 overflow-hidden transition-all duration-300 shadow-sm ${isPassed ? 'opacity-60 grayscale' : ''}`}>
+    <Card className={`w-full mb-3 overflow-hidden transition-all duration-300 shadow-sm ${passedClasses.card}`}>
       {isExpanded ? (
         // Expanded view - with full details
         <>
-          <CardHeader className="px-3 sm:px-6 cursor-pointer hover:bg-gray-50 transition-colors" onClick={() => setIsExpanded(false)}>
+          <CardHeader className={`px-3 sm:px-6 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(false)}>
             <div className="flex justify-between items-start relative">
               <div>
                 <CardTitle>{session.title || session.talkTitle}</CardTitle>
@@ -57,7 +69,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                 >
                   <X size={18} />
                 </button>
-                <Badge variant={
+                <Badge className={passedClasses.badge} variant={
                   session.access === "Platinum" ? "destructive" :
                   session.access === "Gold" ? "gold" :
                   session.access === "Silver" ? "secondary" :
@@ -75,6 +87,11 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
               <span className="text-xs mx-0.5 hidden sm:inline">•</span>
               <span className="text-xs mx-0.5 sm:hidden">/</span>
               <span className="whitespace-nowrap">{session.duration} min</span>
+              {isPassed && (
+                <Badge variant="outline" className="ml-1 text-xs bg-gray-100 text-gray-500 border-gray-200">
+                  Past Session
+                </Badge>
+              )}
               {session.location && (
                 <>
                   <span className="text-xs mx-0.5 hidden sm:inline">•</span>
@@ -183,6 +200,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                     session.ticketTypes.map((ticketType: string, index: number) => (
                       <Badge 
                         key={index}
+                        className={passedClasses.badge}
                         variant={
                           ticketType === "Platinum" ? "destructive" :
                           ticketType === "Gold" ? "gold" :
@@ -257,7 +275,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
         </>
       ) : (
         // Compact collapsed view
-        <CardHeader className="py-2 px-3 sm:px-6 cursor-pointer hover:bg-gray-50 transition-colors" onClick={() => setIsExpanded(true)}>
+        <CardHeader className={`py-2 px-3 sm:px-6 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(true)}>
           <div className="flex justify-between items-center">
             <div className="flex-grow overflow-hidden">
               <h3 className="font-medium text-base truncate" title={session.title || session.talkTitle}>
@@ -268,6 +286,11 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                 <span className="text-xs mx-0.5 hidden sm:inline">•</span>
                 <span className="text-xs mx-0.5 sm:hidden">/</span>
                 <span className="whitespace-nowrap">{session.duration} min</span>
+                {isPassed && (
+                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 ml-1 bg-gray-100 text-gray-500 border-gray-200">
+                    Past
+                  </Badge>
+                )}
                 {session.location && (
                   <>
                     <span className="text-xs mx-0.5 hidden sm:inline">•</span>
