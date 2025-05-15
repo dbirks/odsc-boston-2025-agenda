@@ -6,39 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unofficial ODSC Boston 2025 Agenda</title>
     <script defer data-domain="odsc.boston" src="https://plausible.io/js/script.js"></script>
-    <!-- Preload dark mode script to avoid FOUC (Flash of Unstyled Content) -->
+    <!-- Simple dark mode detection using system preference only -->
     <script>
-      // Simplified script for handling dark mode
       (function() {
-        // Check if user has explicitly set a theme
-        const savedTheme = localStorage.getItem('theme');
+        // Check system preference and apply accordingly
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        // Log for debugging
-        console.log('Preload script - Saved theme:', savedTheme);
-        
-        if (savedTheme === 'dark') {
-          // User explicitly chose dark mode
+        // Apply theme based on system preference
+        if (prefersDark) {
           document.documentElement.classList.add('dark');
-          console.log('Preload script - Setting dark mode from localStorage');
-        } 
-        else if (savedTheme === 'light') {
-          // User explicitly chose light mode
+        } else {
           document.documentElement.classList.remove('dark');
-          console.log('Preload script - Setting light mode from localStorage');
         }
-        else {
-          // Check system preference as fallback
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          console.log('Preload script - System prefers dark:', prefersDark);
-          
-          if (prefersDark) {
+        
+        // Set up a listener for system preference changes
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', (e) => {
+          if (e.matches) {
             document.documentElement.classList.add('dark');
-            console.log('Preload script - Setting dark mode from system preference');
           } else {
             document.documentElement.classList.remove('dark');
-            console.log('Preload script - Setting light mode from system preference');
           }
-        }
+        });
       })();
     </script>
   </head>

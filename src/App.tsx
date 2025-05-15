@@ -1,14 +1,11 @@
 import './App.css'
 import { AgendaDisplay } from './components/AgendaDisplay'
-import { ThemeToggle } from './components/ui/theme-toggle'
 
 function App() {
   return (
     <div className="min-h-screen py-8 px-2 bg-white dark:bg-gray-900 transition-colors">
       <div className="container mx-auto">
-        <div className="flex justify-end mb-4">
-          <ThemeToggle />
-        </div>
+        {/* Theme toggle removed - now using system preference only */}
         <AgendaDisplay />
         <footer className="mt-8 pb-4 text-center text-sm text-gray-500 dark:text-gray-400">
           <p>
