@@ -46,7 +46,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
       {isExpanded ? (
         // Expanded view - with full details
         <>
-          <CardHeader className={`px-3 py-4 sm:px-6 sm:py-5 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(false)}>
+          <CardHeader className={`px-4 py-4 sm:px-6 sm:py-6 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(false)}>
             <div className="flex justify-between items-start relative">
               <div className="pr-2">
                 <CardTitle className="tracking-wide leading-snug text-lg sm:text-xl font-semibold">{session.title || session.talkTitle}</CardTitle>
@@ -94,7 +94,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
               <span className="whitespace-nowrap">{session.difficulty}</span>
             </div>
           </CardHeader>
-          <CardContent className="px-3 sm:px-6 pt-0 pb-3">
+          <CardContent className="px-4 sm:px-6 pt-0 pb-4">
             <p className="whitespace-pre-line tracking-normal sm:tracking-normal">{session.description}</p>
             
             {/* Session Links Section */}
@@ -258,7 +258,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
         </>
       ) : (
         // Compact collapsed view
-        <CardHeader className={`py-2 px-3 sm:px-6 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(true)}>
+        <CardHeader className={`py-2 px-4 sm:px-6 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(true)}>
           <div className="flex justify-between items-center">
             <div className="flex-grow overflow-hidden">
               <h3 className="font-medium text-base line-clamp-2 sm:truncate tracking-normal" title={session.title || session.talkTitle}>
@@ -292,7 +292,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
         </CardHeader>
       )}
       <CardFooter 
-        className="flex justify-center py-1 px-3 sm:px-6 border-t cursor-pointer hover:bg-gray-50 transition-colors" 
+        className="flex justify-center py-1 px-4 sm:px-6 border-t cursor-pointer hover:bg-gray-50 transition-colors" 
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <span className="text-xs font-medium text-center text-gray-600 w-full py-1">
