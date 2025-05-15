@@ -25,6 +25,26 @@ pnpm preview
 pnpm lint
 ```
 
+### Version Control
+```bash
+# Stage all changes
+git add .
+
+# Commit changes with descriptive message
+git commit -m "Brief description of changes"
+
+# Push to remote repository
+git push
+```
+
+You should commit and push changes frequently:
+- After implementing a new feature
+- After fixing a bug
+- After refactoring code
+- After updating documentation
+- After making significant UI changes
+- After completing a logical chunk of work
+
 ## Project Architecture
 
 ### Overview
@@ -76,6 +96,15 @@ Shows when agenda data was last updated:
 - For the mobile API format: uses the version timestamp from the API response
 - Displays the time in Eastern Time (ET)
 
+### Known Issues and Solutions
+
+#### Session Duplication Bug
+When sessions appear duplicated while switching between days:
+- Ensure session component keys include the day and index: `key={${selectedDay}-${session._id}-${index}}`
+- Reset filtered sessions before applying new filters: `setFilteredSessions([])`
+- Use a consistent filtering chain with immutable operations
+- Add a fetch guard to prevent multiple data loads: `if (dataFetched) return;`
+
 ### Technologies
 - React 19
 - TypeScript
@@ -118,3 +147,21 @@ The application can be updated with new agenda data using:
    curl 'https://live.odsc.com/api/v1/mobile/agenda' > data/agenda.json
    ```
 3. Automatic updates via GitHub Actions (if configured)
+
+### Deployment Options
+The project is configured for multiple deployment platforms:
+
+#### Azure Static Web Apps
+- Configured via `.github/workflows/azure-static-web-apps-calm-plant-070d8830f.yml`
+- Uses `staticwebapp.config.json` for routing and MIME types
+- Automatically deploys when changes are pushed to main
+
+#### GitHub Pages
+- Configured via `.github/workflows/github-pages.yml`
+- Deploys to gh-pages branch when changes are pushed to main
+- Alternative deployment method if Azure has issues
+
+#### Netlify
+- Configured via `netlify.toml`
+- Supports SPA routing for React
+- Can be linked to the GitHub repository for automatic deployments
