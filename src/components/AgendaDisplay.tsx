@@ -11,6 +11,7 @@ export function AgendaDisplay() {
   const [ticketFilter, setTicketFilter] = useState<TicketType>("All");
   const [availableDays, setAvailableDays] = useState<string[]>([]);
   const [selectedDay, setSelectedDay] = useState<string>("");
+  const [currentTime, setCurrentTime] = useState<number>(Date.now());
 
   // State to keep track of whether data has been fetched
   const [dataFetched, setDataFetched] = useState<boolean>(false);
@@ -97,6 +98,19 @@ export function AgendaDisplay() {
     return processed;
   };
 
+  // Update current time every minute
+  useEffect(() => {
+    // Initial update
+    setCurrentTime(Date.now());
+    
+    // Set up interval to update every minute
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 60000); // 60000 ms = 1 minute
+    
+    return () => clearInterval(intervalId);
+  }, []);
+  
   // Apply filters when sessions, ticketFilter, or selectedDay changes
   useEffect(() => {
     // Always clear filtered sessions first to avoid accumulation
@@ -188,12 +202,21 @@ export function AgendaDisplay() {
           </h2>
         )}
         
-        {filteredSessions.map((session, index) => (
-          <SessionCard 
-            key={`${selectedDay}-${session._id}-${index}`} 
-            session={session} 
-          />
-        ))}
+        {filteredSessions.map((session, index) => {
+          // Check if the session has passed (10 minutes after start time)
+          const sessionStartTime = session.utcStartTimeMilliseconds || new Date(session.startTime || '').getTime();
+          const sessionEndTime = session.utcEndTimeMilliseconds || (sessionStartTime + (session.duration * 60 * 1000));
+          const tenMinutesAfterStart = sessionStartTime + (10 * 60 * 1000); // 10 minutes in milliseconds
+          const isPassed = currentTime > tenMinutesAfterStart;
+          
+          return (
+            <SessionCard 
+              key={`${selectedDay}-${session._id}-${index}`} 
+              session={session}
+              isPassed={isPassed}
+            />
+          );
+        })}
       </div>
       
       {filteredSessions.length === 0 && (

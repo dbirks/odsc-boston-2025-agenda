@@ -6,9 +6,10 @@ import { X } from "lucide-react";
 
 interface SessionCardProps {
   session: SessionItem;
+  isPassed?: boolean;
 }
 
-export function SessionCard({ session }: SessionCardProps) {
+export function SessionCard({ session, isPassed = false }: SessionCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Use the tags array from the new format if available, otherwise use the old tag fields
@@ -30,7 +31,7 @@ export function SessionCard({ session }: SessionCardProps) {
   };
 
   return (
-    <Card className="w-full mb-3 overflow-hidden transition-all duration-300 shadow-sm">
+    <Card className={`w-full mb-3 overflow-hidden transition-all duration-300 shadow-sm ${isPassed ? 'opacity-60 grayscale' : ''}`}>
       {isExpanded ? (
         // Expanded view - with full details
         <>
