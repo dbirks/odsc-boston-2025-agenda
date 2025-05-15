@@ -3,6 +3,46 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "./ui/badge";
 import { X } from "lucide-react";
 
+// Function to get unique badge variant based on session type
+const getSessionTypeVariant = (sessionType: string): string => {
+  switch (sessionType) {
+    case "AI Expo Talk":
+      return "bg-emerald-500";
+    case "AI Startup Showcase":
+      return "bg-blue-400";
+    case "Book Signing":
+      return "bg-purple-400";
+    case "GenAi X Keynote":
+      return "bg-rose-500";
+    case "GenAi X Panel":
+      return "bg-pink-500";
+    case "GenAi X Talk":
+      return "bg-fuchsia-500";
+    case "Keynote":
+      return "bg-amber-500";
+    case "Lightning Talk":
+      return "bg-orange-500";
+    case "Networking +":
+      return "bg-teal-500";
+    case "Round Table Discussion":
+      return "bg-cyan-500";
+    case "Talk":
+      return "bg-indigo-500";
+    case "Track Keynote":
+      return "bg-yellow-500";
+    case "Training":
+      return "bg-lime-500";
+    case "Tutorial":
+      return "bg-sky-500";
+    case "Women in DS":
+      return "bg-violet-500";
+    case "Workshop":
+      return "bg-green-500";
+    default:
+      return "bg-gray-500";
+  }
+};
+
 interface SessionCardProps {
   session: SessionItem;
   isPassed?: boolean;
@@ -280,7 +320,10 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                   <>
                     <span className="text-xs mx-0.5 hidden sm:inline">•</span>
                     <span className="text-xs mx-0.5 sm:hidden">/</span>
-                    <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 min-w-0 max-w-full sm:max-w-none overflow-hidden text-ellipsis whitespace-nowrap tracking-normal" title={session.subtrack}>
+                    <Badge 
+                      className={`text-[10px] px-1 py-0 h-4 min-w-0 max-w-full sm:max-w-none overflow-hidden text-ellipsis whitespace-nowrap tracking-normal border-transparent ${getSessionTypeVariant(session.subtrack)} text-white`} 
+                      title={session.subtrack}
+                    >
                       <span className="hidden sm:inline">{session.subtrack}</span>
                       <span className="sm:hidden">{truncateText(session.subtrack, 15)}</span>
                     </Badge>

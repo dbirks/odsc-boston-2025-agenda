@@ -23,6 +23,8 @@ const badgeVariants = cva(
           "border-cyan-400 bg-cyan-100 text-cyan-800 hover:bg-cyan-200", // 2-Day Business
         threeDayBusiness:
           "border-indigo-400 bg-indigo-100 text-indigo-800 hover:bg-indigo-200", // 3-Day Business
+        highlight: 
+          "border-transparent bg-gradient-to-r from-rose-500 to-pink-500 text-white hover:from-rose-600 hover:to-pink-600", // Collapsed card highlight
         outline: "border-gray-300 text-gray-700 bg-white", // Default fallback
       },
     },
