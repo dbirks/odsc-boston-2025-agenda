@@ -11,7 +11,7 @@
       // Immediately check and apply theme on page load to prevent flash
       // This runs before React loads
       (function() {
-        const THEME_KEY = 'user-theme-preference';
+        const THEME_KEY = 'theme';
         const storedTheme = localStorage.getItem(THEME_KEY);
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
