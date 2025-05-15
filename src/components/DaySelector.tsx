@@ -63,7 +63,7 @@ export function DaySelector({ availableDays, onDayChange }: DaySelectorProps) {
   };
 
   return (
-    <div className="flex flex-wrap gap-2 mb-6">
+    <div className="flex flex-wrap justify-center gap-2 mb-3">
       {availableDays.map((day) => (
         <Button
           key={day}

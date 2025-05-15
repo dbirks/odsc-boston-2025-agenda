@@ -159,7 +159,7 @@ export function AgendaDisplay() {
       <h1 className="text-3xl font-bold mb-2 text-center">Unofficial ODSC Boston 2025 Agenda</h1>
       <LastUpdatedIndicator />
       
-      <div className="space-y-4">
+      <div className="space-y-2">
         <DaySelector availableDays={availableDays} onDayChange={handleDayChange} />
         <FilterBar onFilterChange={handleFilterChange} />
       </div>
