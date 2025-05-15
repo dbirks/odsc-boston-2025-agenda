@@ -3,7 +3,6 @@ import { FilterBar } from "./FilterBar";
 import { SessionCard } from "./SessionCard";
 import { DaySelector } from "./DaySelector";
 import { LastUpdatedIndicator } from "./LastUpdatedIndicator";
-import { SiteLastUpdated } from "./SiteLastUpdated";
 import { Badge } from "./ui/badge";
 
 export function AgendaDisplay() {
@@ -171,7 +170,6 @@ export function AgendaDisplay() {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-1 sm:px-3">
-      <SiteLastUpdated />
       <h1 className="text-3xl font-bold mb-2 text-center">Unofficial ODSC Boston 2025 Agenda</h1>
       <LastUpdatedIndicator />
       
