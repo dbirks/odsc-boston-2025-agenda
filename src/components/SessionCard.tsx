@@ -50,7 +50,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
           <CardHeader className={`px-3 py-4 sm:px-6 sm:py-5 cursor-pointer ${passedClasses.header} transition-colors ${passedClasses.text}`} onClick={() => setIsExpanded(false)}>
             <div className="flex justify-between items-start relative">
               <div className="pr-2">
-                <CardTitle className="tracking-wide leading-snug text-base sm:text-lg">{session.title || session.talkTitle}</CardTitle>
+                <CardTitle className="tracking-wide leading-snug text-lg sm:text-xl font-semibold">{session.title || session.talkTitle}</CardTitle>
                 <CardDescription className="mt-2 tracking-normal leading-relaxed">
                   {session.speakers && session.speakers.length > 0 
                     ? `${session.speakers[0].name} (${session.speakers[0].jobTitle}) - ${session.speakers[0].company}` 
