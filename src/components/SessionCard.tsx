@@ -61,7 +61,7 @@ export function SessionCard({ session }: SessionCardProps) {
               {session.location && (
                 <>
                   <span>•</span>
-                  <span>Room {session.location}</span>
+                  <span>{session.location}</span>
                 </>
               )}
               {session.subtrack && (
@@ -231,7 +231,7 @@ export function SessionCard({ session }: SessionCardProps) {
                 {session.location && (
                   <>
                     <span>•</span>
-                    <span title={session.location}>Room {session.location}</span>
+                    <span title={session.location}>{session.location}</span>
                   </>
                 )}
                 {session.subtrack && (
