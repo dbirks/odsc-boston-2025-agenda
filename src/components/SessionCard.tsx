@@ -79,7 +79,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                 <>
                   <span className="text-xs mx-0.5 hidden sm:inline">•</span>
                   <span className="text-xs mx-0.5 sm:hidden">/</span>
-                  <span className="whitespace-nowrap">{session.location}</span>
+                  <span className="whitespace-nowrap font-medium">{session.location}</span>
                 </>
               )}
               {session.subtrack && (
@@ -273,7 +273,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                   <>
                     <span className="text-xs mx-0.5 hidden sm:inline">•</span>
                     <span className="text-xs mx-0.5 sm:hidden">/</span>
-                    <span className="whitespace-nowrap tracking-normal" title={session.location}>{session.location}</span>
+                    <span className="whitespace-nowrap tracking-normal font-medium" title={session.location}>{session.location}</span>
                   </>
                 )}
                 {session.subtrack && (
