@@ -136,7 +136,7 @@ export function AgendaDisplay() {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4">
-      <h1 className="text-3xl font-bold mb-2 text-center">ODSC Boston 2025 Agenda</h1>
+      <h1 className="text-3xl font-bold mb-2 text-center">Unofficial ODSC Boston 2025 Agenda</h1>
       <LastUpdatedIndicator />
       
       <div className="space-y-4">
