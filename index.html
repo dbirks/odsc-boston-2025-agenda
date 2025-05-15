@@ -12,11 +12,11 @@
       // This runs before React loads
       (function() {
         const THEME_KEY = 'user-theme-preference';
-        const storedPreference = localStorage.getItem(THEME_KEY);
+        const storedTheme = localStorage.getItem(THEME_KEY);
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        // If user has chosen dark or system and system prefers dark
-        if (storedPreference === 'dark' || (storedPreference === 'system' && prefersDark) || (!storedPreference && prefersDark)) {
+        // Use stored preference if it exists, otherwise use system preference
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
