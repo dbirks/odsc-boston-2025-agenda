@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { X } from "lucide-react";
 
 interface SessionCardProps {
   session: SessionItem;
@@ -33,8 +34,8 @@ export function SessionCard({ session }: SessionCardProps) {
       {isExpanded ? (
         // Expanded view - with full details
         <>
-          <CardHeader className="px-3 sm:px-6">
-            <div className="flex justify-between items-start">
+          <CardHeader className="px-3 sm:px-6 cursor-pointer hover:bg-gray-50 transition-colors" onClick={() => setIsExpanded(false)}>
+            <div className="flex justify-between items-start relative">
               <div>
                 <CardTitle>{session.title || session.talkTitle}</CardTitle>
                 <CardDescription className="mt-1">
@@ -44,7 +45,18 @@ export function SessionCard({ session }: SessionCardProps) {
                   }
                 </CardDescription>
               </div>
-              <Badge variant={
+              <div className="flex flex-col items-end gap-2">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsExpanded(false);
+                  }} 
+                  className="text-gray-400 hover:text-gray-600 focus:outline-none p-1 rounded-full hover:bg-gray-100"
+                  aria-label="Close session details"
+                >
+                  <X size={18} />
+                </button>
+                <Badge variant={
                 session.access === "Platinum" ? "destructive" :
                 session.access === "Gold" ? "gold" :
                 session.access === "Silver" ? "secondary" :
@@ -237,7 +249,7 @@ export function SessionCard({ session }: SessionCardProps) {
         </>
       ) : (
         // Compact collapsed view
-        <CardHeader className="py-2 px-3 sm:px-6">
+        <CardHeader className="py-2 px-3 sm:px-6 cursor-pointer hover:bg-gray-50 transition-colors" onClick={() => setIsExpanded(true)}>
           <div className="flex justify-between items-center">
             <div className="flex-grow overflow-hidden">
               <h3 className="font-medium text-base truncate" title={session.title || session.talkTitle}>
@@ -265,14 +277,14 @@ export function SessionCard({ session }: SessionCardProps) {
           </div>
         </CardHeader>
       )}
-      <CardFooter className="flex justify-center py-1 px-3 sm:px-6">
+      <CardFooter className="flex justify-center py-1 px-3 sm:px-6 border-t">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => setIsExpanded(!isExpanded)}
           className="text-xs h-6 py-0"
         >
-          {isExpanded ? "Show Less" : "Show More"}
+          {isExpanded ? "Show Less (or click header to collapse)" : "Show More"}
         </Button>
       </CardFooter>
     </Card>
