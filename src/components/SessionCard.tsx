@@ -90,7 +90,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
             <div className="flex justify-between items-start relative">
               <div className="pr-2">
                 <CardTitle className="tracking-wide leading-snug text-lg sm:text-xl font-semibold">{session.title || session.talkTitle}</CardTitle>
-                <CardDescription className="mt-2 tracking-normal leading-relaxed">
+                <CardDescription className="mt-2 tracking-normal leading-relaxed dark:text-gray-300">
                   {session.speakers && session.speakers.length > 0 
                     ? `${session.speakers[0].name} (${session.speakers[0].jobTitle}) - ${session.speakers[0].company}` 
                     : `${session.speakerName || ''} ${session.speakerTitle ? `(${session.speakerTitle})` : ''} ${session.speakerCompany ? `- ${session.speakerCompany}` : ''}`
