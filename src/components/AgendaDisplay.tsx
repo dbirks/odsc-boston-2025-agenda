@@ -8,7 +8,7 @@ import { Badge } from "./ui/badge";
 export function AgendaDisplay() {
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [filteredSessions, setFilteredSessions] = useState<SessionItem[]>([]);
-  const [ticketFilter, setTicketFilter] = useState<TicketType>("All");
+  const [ticketFilter, setTicketFilter] = useState<TicketType>("All pass levels");
   const [availableDays, setAvailableDays] = useState<string[]>([]);
   const [selectedDay, setSelectedDay] = useState<string>("");
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
@@ -125,7 +125,7 @@ export function AgendaDisplay() {
       .filter(session => !selectedDay || session.date === selectedDay)
       // Then, filter by ticket type
       .filter(session => {
-        if (ticketFilter === "All") return true;
+        if (ticketFilter === "All pass levels" || ticketFilter === "All") return true;
         
         // Try to match using the new ticketTypes array first
         if (session.ticketTypes && session.ticketTypes.includes(ticketFilter)) {
@@ -179,28 +179,26 @@ export function AgendaDisplay() {
       </div>
       
       <div className="mt-6">
-        {selectedDay && (
-          <h2 className="text-xl font-semibold mb-4 flex items-center sticky top-0 bg-white dark:bg-gray-900 z-10 py-2">
-            <Badge variant="default" className="mr-2 text-base px-3 py-1">
-              {formatDate(selectedDay)}
-            </Badge>
-            <Badge
-              variant={
-                ticketFilter === "Platinum" ? "destructive" :
-                ticketFilter === "Gold" ? "gold" : 
-                ticketFilter === "Silver" ? "secondary" :
-                ticketFilter === "VIP" ? "default" :
-                ticketFilter === "Bootcamp" ? "bootcamp" :
-                ticketFilter === "Expo" ? "expo" :
-                ticketFilter === "2-Day Business" ? "twoDayBusiness" :
-                ticketFilter === "3-Day Business" ? "threeDayBusiness" :
-                "outline"
-              }
-              className="text-base px-3 py-1">
-              {ticketFilter}
-            </Badge>
-          </h2>
-        )}
+        <h2 className="text-xl font-semibold mb-4 flex items-center sticky top-0 bg-white dark:bg-gray-900 z-10 py-2">
+          <Badge variant="default" className="mr-2 text-base px-3 py-1">
+            {selectedDay ? formatDate(selectedDay) : "All days"}
+          </Badge>
+          <Badge
+            variant={
+              ticketFilter === "Platinum" ? "destructive" :
+              ticketFilter === "Gold" ? "gold" : 
+              ticketFilter === "Silver" ? "secondary" :
+              ticketFilter === "VIP" ? "default" :
+              ticketFilter === "Bootcamp" ? "bootcamp" :
+              ticketFilter === "Expo" ? "expo" :
+              ticketFilter === "2-Day Business" ? "twoDayBusiness" :
+              ticketFilter === "3-Day Business" ? "threeDayBusiness" :
+              "outline"
+            }
+            className="text-base px-3 py-1">
+            {ticketFilter}
+          </Badge>
+        </h2>
         
         {filteredSessions.map((session, index) => {
           // Check if the session has ended (current time is past the end time)
@@ -211,7 +209,7 @@ export function AgendaDisplay() {
           
           return (
             <SessionCard 
-              key={`${selectedDay}-${session._id}-${index}`} 
+              key={`${selectedDay || 'all'}-${session._id}-${index}`} 
               session={session}
               isPassed={isPassed}
             />

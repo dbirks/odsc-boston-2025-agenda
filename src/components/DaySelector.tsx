@@ -18,8 +18,12 @@ export function DaySelector({ availableDays, onDayChange }: DaySelectorProps) {
   useEffect(() => {
     if (availableDays.length === 0) return;
 
+    // If the user explicitly selected an empty string (All days), keep it
+    if (selectedDay === "") {
+      // Keep "All days" selected
+    }
     // If we already have a selectedDay and it's in the availableDays, keep it
-    if (selectedDay && availableDays.includes(selectedDay)) {
+    else if (selectedDay && availableDays.includes(selectedDay)) {
       // Just use the existing selected day
     } else {
       // Format today's date in the same format as in the data (YYYY-MM-DD)
@@ -40,11 +44,9 @@ export function DaySelector({ availableDays, onDayChange }: DaySelectorProps) {
   }, [availableDays, selectedDay]);
 
   useEffect(() => {
-    if (selectedDay) {
-      // Save to local storage when selectedDay changes
-      localStorage.setItem(LOCAL_STORAGE_KEY, selectedDay);
-      onDayChange(selectedDay);
-    }
+    // Save to local storage when selectedDay changes (including empty string for All days)
+    localStorage.setItem(LOCAL_STORAGE_KEY, selectedDay);
+    onDayChange(selectedDay);
   }, [selectedDay, onDayChange]);
 
   // Format date for display (e.g., "May 13")
@@ -64,6 +66,14 @@ export function DaySelector({ availableDays, onDayChange }: DaySelectorProps) {
 
   return (
     <div className="flex flex-wrap justify-center gap-2 mb-3">
+      <Button
+        key="all-days"
+        variant={selectedDay === "" ? "default" : "outline"}
+        onClick={() => handleDaySelect("")}
+        className="px-6"
+      >
+        All days
+      </Button>
       {availableDays.map((day) => (
         <Button
           key={day}

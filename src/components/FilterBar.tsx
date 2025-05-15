@@ -6,13 +6,15 @@ interface FilterBarProps {
   onFilterChange: (ticketType: TicketType) => void;
 }
 
-const TICKET_TYPES: TicketType[] = ["All", "Platinum", "Gold", "Silver", "VIP", "Bootcamp", "Expo", "2-Day Business", "3-Day Business"];
+const TICKET_TYPES: TicketType[] = ["All pass levels", "Platinum", "Gold", "Silver", "VIP", "Bootcamp", "Expo", "2-Day Business", "3-Day Business"];
 const LOCAL_STORAGE_KEY = "odsc-ticket-type-filter";
 
 export function FilterBar({ onFilterChange }: FilterBarProps) {
   const [selectedType, setSelectedType] = useState<TicketType>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return (saved as TicketType) || "All";
+    // Handle saved value "All" for backward compatibility
+    if (saved === "All") return "All pass levels";
+    return (saved as TicketType) || "All pass levels";
   });
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
