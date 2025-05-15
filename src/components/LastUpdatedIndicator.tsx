@@ -68,7 +68,7 @@ export function LastUpdatedIndicator() {
 
   return (
     <div className="text-xs text-gray-500 text-center mt-1 mb-4">
-      <span>Agenda last updated: {lastUpdateTime} ET</span>
+      <span>Agenda data last refreshed at: {lastUpdateTime} ET</span>
     </div>
   );
 }
