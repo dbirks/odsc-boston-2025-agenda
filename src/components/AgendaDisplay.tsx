@@ -203,10 +203,11 @@ export function AgendaDisplay() {
         )}
         
         {filteredSessions.map((session, index) => {
-          // Check if the session has passed (10 minutes after start time)
+          // Check if the session has ended (current time is past the end time)
           const sessionStartTime = session.utcStartTimeMilliseconds || new Date(session.startTime || '').getTime();
-          const tenMinutesAfterStart = sessionStartTime + (10 * 60 * 1000); // 10 minutes in milliseconds
-          const isPassed = currentTime > tenMinutesAfterStart;
+          // Calculate end time based on start time + duration
+          const sessionEndTime = session.utcEndTimeMilliseconds || (sessionStartTime + (session.duration * 60 * 1000));
+          const isPassed = currentTime > sessionEndTime;
           
           return (
             <SessionCard 
