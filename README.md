@@ -1,17 +1,12 @@
 # ODSC Boston 2025 Agenda
 
-A simple, responsive conference agenda viewer for ODSC Boston 2025, built with Claude Code.
+An alternative conference agenda viewer for ODSC Boston 2025, built with Claude Code.
 
 ## Features
 
-- View the complete conference agenda
+- View the conference agenda
 - Filter sessions by ticket type (Platinum, Gold, Silver, VIP, etc.)
-- Toggle between conference days with easy day selector
-- Color-coded session type badges for quick identification
-- Expand session cards to see detailed information
-- Preferences saved in browser local storage
-- Responsive design works on mobile and desktop
-- Visual distinction for past sessions
+  - With caching the selection in LocalStorage
 
 ## Development
 
@@ -56,12 +51,4 @@ This project is deployed on Vercel. The production site automatically updates wh
 
 This project was built with the assistance of [Claude Code](https://claude.ai/code), Anthropic's AI coding assistant. Claude Code was used for:
 
-- Implementing unique color-coded badges for session types
-- Optimizing the responsive design for mobile devices
-- Creating an efficient filtering system
-- Adding the GitHub repository link in the footer
-- General code improvements and bug fixes
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+- Everything :smiling:
