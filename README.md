@@ -1,4 +1,4 @@
-# ODSC Boston 2025 Agenda
+# Unofficial ODSC Boston 2025 Agenda
 
 An alternative conference agenda viewer for ODSC Boston 2025, built with Claude Code.
 
