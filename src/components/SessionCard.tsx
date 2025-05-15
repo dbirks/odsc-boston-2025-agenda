@@ -195,7 +195,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                     session.ticketTypes.map((ticketType: string, index: number) => (
                       <Badge 
                         key={index}
-                        className={passedClasses.badge}
+                        className={`${passedClasses.badge} text-xs`}
                         variant={
                           ticketType === "Platinum" ? "destructive" :
                           ticketType === "Gold" ? "gold" :
@@ -207,7 +207,6 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                           ticketType === "3-Day Business" ? "threeDayBusiness" :
                           "outline"
                         }
-                        className="text-xs"
                       >
                         {ticketType}
                       </Badge>

@@ -205,7 +205,6 @@ export function AgendaDisplay() {
         {filteredSessions.map((session, index) => {
           // Check if the session has passed (10 minutes after start time)
           const sessionStartTime = session.utcStartTimeMilliseconds || new Date(session.startTime || '').getTime();
-          const sessionEndTime = session.utcEndTimeMilliseconds || (sessionStartTime + (session.duration * 60 * 1000));
           const tenMinutesAfterStart = sessionStartTime + (10 * 60 * 1000); // 10 minutes in milliseconds
           const isPassed = currentTime > tenMinutesAfterStart;
           
