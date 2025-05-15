@@ -6,28 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unofficial ODSC Boston 2025 Agenda</title>
     <script defer data-domain="odsc.boston" src="https://plausible.io/js/script.js"></script>
-    <!-- Simple dark mode detection using system preference only -->
+    <!-- Prevent flash of unstyled content -->
     <script>
       (function() {
-        // Check system preference and apply accordingly
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Check localStorage first
+        const savedTheme = localStorage.getItem('theme');
         
-        // Apply theme based on system preference
-        if (prefersDark) {
+        if (savedTheme === 'dark') {
           document.documentElement.classList.add('dark');
-        } else {
+        } else if (savedTheme === 'light') {
           document.documentElement.classList.remove('dark');
-        }
-        
-        // Set up a listener for system preference changes
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        mediaQuery.addEventListener('change', (e) => {
-          if (e.matches) {
+        } else {
+          // No saved preference, check system preference
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
             document.documentElement.classList.add('dark');
           } else {
             document.documentElement.classList.remove('dark');
           }
-        });
+        }
       })();
     </script>
   </head>

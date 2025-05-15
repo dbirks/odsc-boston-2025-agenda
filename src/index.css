@@ -13,4 +13,10 @@ body {
   color: #333;
 }
 
+/* Dark mode overrides */
+.dark body {
+  background-color: #111827; /* dark gray-900 */
+  color: #f3f4f6; /* gray-100 */
+}
+
 @source "./src";
