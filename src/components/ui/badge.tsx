@@ -12,7 +12,7 @@ const badgeVariants = cva(
         secondary:
           "border-transparent bg-slate-400 text-white hover:bg-slate-500", // Silver
         destructive:
-          "border-transparent bg-gray-800 text-white hover:bg-gray-900", // Platinum
+          "border-transparent bg-gradient-to-r from-indigo-700 to-purple-700 text-white hover:from-indigo-800 hover:to-purple-800", // Platinum
         gold:
           "border-amber-400 bg-amber-100 text-amber-800 hover:bg-amber-200", // Gold
         expo:
