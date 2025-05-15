@@ -8,14 +8,37 @@
     <script defer data-domain="odsc.boston" src="https://plausible.io/js/script.js"></script>
     <!-- Preload dark mode script to avoid FOUC (Flash of Unstyled Content) -->
     <script>
-      // On page load or when changing themes (based on Tailwind v4 docs)
-      // This runs before React loads to avoid flash
+      // Simplified script for handling dark mode
       (function() {
-        document.documentElement.classList.toggle(
-          "dark",
-          localStorage.theme === "dark" || 
-            (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
-        );
+        // Check if user has explicitly set a theme
+        const savedTheme = localStorage.getItem('theme');
+        
+        // Log for debugging
+        console.log('Preload script - Saved theme:', savedTheme);
+        
+        if (savedTheme === 'dark') {
+          // User explicitly chose dark mode
+          document.documentElement.classList.add('dark');
+          console.log('Preload script - Setting dark mode from localStorage');
+        } 
+        else if (savedTheme === 'light') {
+          // User explicitly chose light mode
+          document.documentElement.classList.remove('dark');
+          console.log('Preload script - Setting light mode from localStorage');
+        }
+        else {
+          // Check system preference as fallback
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          console.log('Preload script - System prefers dark:', prefersDark);
+          
+          if (prefersDark) {
+            document.documentElement.classList.add('dark');
+            console.log('Preload script - Setting dark mode from system preference');
+          } else {
+            document.documentElement.classList.remove('dark');
+            console.log('Preload script - Setting light mode from system preference');
+          }
+        }
       })();
     </script>
   </head>
