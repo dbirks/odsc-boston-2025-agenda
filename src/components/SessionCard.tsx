@@ -153,66 +153,81 @@ export function SessionCard({ session }: SessionCardProps) {
               </div>
             )}
             
-            <div className="flex flex-wrap gap-2 mt-4">
-              {/* Show ticket types */}
-              <div className="flex flex-wrap gap-1 mb-1">
-                <span className="text-xs text-gray-500 my-auto mr-1">Access:</span>
-                {/* If we have the new ticketTypes array, use it */}
-                {session.ticketTypes && session.ticketTypes.length > 0 ? (
-                  session.ticketTypes.map((ticketType: string, index: number) => (
+            <div className="space-y-4 mt-4">
+              {/* Ticket Types Section */}
+              <div className="border-b pb-2">
+                <h4 className="text-sm font-medium mb-2">Access Levels</h4>
+                <div className="flex flex-wrap gap-1">
+                  {/* If we have the new ticketTypes array, use it */}
+                  {session.ticketTypes && session.ticketTypes.length > 0 ? (
+                    session.ticketTypes.map((ticketType: string, index: number) => (
+                      <Badge 
+                        key={index}
+                        variant={
+                          ticketType === "Platinum" ? "destructive" :
+                          ticketType === "Gold" ? "gold" :
+                          ticketType === "Silver" ? "secondary" :
+                          ticketType === "VIP" ? "default" :
+                          ticketType === "Bootcamp" ? "secondary" :
+                          ticketType === "Expo" ? "outline" :
+                          "outline"
+                        }
+                        className="text-xs"
+                      >
+                        {ticketType}
+                      </Badge>
+                    ))
+                  ) : (
+                    // Fallback to the old access field
                     <Badge 
-                      key={index}
                       variant={
-                        ticketType === "Platinum" ? "destructive" :
-                        ticketType === "Gold" ? "gold" :
-                        ticketType === "Silver" ? "secondary" :
-                        ticketType === "VIP" ? "default" :
-                        ticketType === "Bootcamp" ? "secondary" :
-                        ticketType === "Expo" ? "outline" :
+                        session.access === "Platinum" ? "destructive" :
+                        session.access === "Gold" ? "gold" :
+                        session.access === "Silver" ? "secondary" :
+                        session.access === "VIP" ? "default" :
+                        session.access === "Bootcamp" ? "secondary" :
+                        session.access === "Expo" ? "outline" :
                         "outline"
                       }
-                      className="text-xs"
                     >
-                      {ticketType}
+                      {session.access}
                     </Badge>
-                  ))
-                ) : (
-                  // Fallback to the old access field
-                  <Badge 
-                    variant={
-                      session.access === "Platinum" ? "destructive" :
-                      session.access === "Gold" ? "gold" :
-                      session.access === "Silver" ? "secondary" :
-                      session.access === "VIP" ? "default" :
-                      session.access === "Bootcamp" ? "secondary" :
-                      session.access === "Expo" ? "outline" :
-                      "outline"
-                    }
-                  >
-                    {session.access}
-                  </Badge>
-                )}
+                  )}
+                </div>
               </div>
               
-              {/* Session type */}
-              {session.subtrack && (
-                <Badge variant="outline" className="bg-gray-50">{session.subtrack}</Badge>
+              {/* Session Attributes Section */}
+              <div className="border-b pb-2">
+                <h4 className="text-sm font-medium mb-2">Session Details</h4>
+                <div className="flex flex-wrap gap-1">
+                  {/* Session type */}
+                  {session.subtrack && (
+                    <Badge variant="outline" className="bg-gray-50">{session.subtrack}</Badge>
+                  )}
+                  
+                  {/* Session difficulty */}
+                  <Badge variant="outline" className="bg-gray-50">{session.difficulty}</Badge>
+                  
+                  {/* Unlockable indicator */}
+                  {session.unlockable && (
+                    <Badge variant="outline" className="bg-amber-50 border-amber-300 text-amber-700">
+                      Unlockable
+                    </Badge>
+                  )}
+                </div>
+              </div>
+              
+              {/* Topic Tags Section */}
+              {tagArray.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-medium mb-2">Topics</h4>
+                  <div className="flex flex-wrap gap-1">
+                    {tagArray.map((tag: string | undefined, index: number) => tag && (
+                      <Badge key={index} variant="outline">{tag}</Badge>
+                    ))}
+                  </div>
+                </div>
               )}
-              
-              {/* Session difficulty */}
-              <Badge variant="outline" className="bg-gray-50">{session.difficulty}</Badge>
-              
-              {/* Unlockable indicator */}
-              {session.unlockable && (
-                <Badge variant="outline" className="bg-amber-50 border-amber-300 text-amber-700">
-                  Unlockable
-                </Badge>
-              )}
-              
-              {/* Topic tags */}
-              {tagArray.map((tag: string | undefined, index: number) => tag && (
-                <Badge key={index} variant="outline">{tag}</Badge>
-              ))}
             </div>
           </CardContent>
         </>
