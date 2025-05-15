@@ -55,7 +55,7 @@ export function SessionCard({ session }: SessionCardProps) {
               }>{session.access}</Badge>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
-              <span>{session.displayStartTime}</span>
+              <span>{session.displayStartTime} - {session.displayEndTime}</span>
               <span>•</span>
               <span>{session.duration} min</span>
               {session.location && (
@@ -225,7 +225,7 @@ export function SessionCard({ session }: SessionCardProps) {
                 {session.title || session.talkTitle}
               </h3>
               <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
-                <span className="font-semibold">{session.displayStartTime}</span>
+                <span className="font-semibold">{session.displayStartTime} - {session.displayEndTime}</span>
                 <span>•</span>
                 <span>{session.duration} min</span>
                 {session.location && (
