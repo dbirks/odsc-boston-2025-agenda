@@ -32,10 +32,13 @@ This project is a responsive React application for displaying the ODSC Boston 20
 
 ### Data Flow
 1. Agenda data is stored in JSON format at `/data/agenda.json`
-2. Data is automatically fetched via GitHub Actions every 30 minutes (if set up with proper secrets)
-3. The main `AgendaDisplay` component loads and filters the data
-4. Users can filter by day using `DaySelector` and by ticket type using `FilterBar`
-5. Individual sessions are displayed as `SessionCard` components
+2. The application supports two data formats:
+   - Original array format with specific fields
+   - Mobile API format with nested response structure (success, data, version)
+3. Data is automatically fetched via GitHub Actions every 30 minutes (if set up with proper secrets)
+4. The main `AgendaDisplay` component loads and transforms the data to a compatible format
+5. Users can filter by day using `DaySelector` and by ticket type using `FilterBar`
+6. Individual sessions are displayed as `SessionCard` components
 
 ### Key Components
 
@@ -54,18 +57,24 @@ Allows users to switch between conference days:
 
 #### FilterBar
 Provides buttons to filter sessions by ticket type:
-- Supports "All", "General", "Premium", "Platinum", and "Gold" ticket types
+- Supports "All", "General", "Premium", "Platinum", "Gold", "Silver", and other ticket types
 - Saves selected type in local storage
+- Uses color-coded badges: blue for General, green for Premium, silver/slate for Platinum, and amber for Gold
 
 #### SessionCard
 Displays information about individual sessions:
 - Collapsible cards with "Show More/Less" functionality
-- Compact view shows basic info: title, time, duration
-- Expanded view shows full details: description, speaker info, tags, etc.
-- Color-coded badges for different ticket types
+- Compact view shows basic info: title, time, duration, session type
+- Expanded view shows full details: description, speaker info, tags, links, etc.
+- Expanded view displays all available ticket types with color-coded badges
+- Provides direct access to session resources (webinar links, Slack channels, etc.)
+- Shows special indicators for unlockable content
 
 #### LastUpdatedIndicator
-Shows when agenda data was last updated based on metadata in the JSON.
+Shows when agenda data was last updated:
+- For the original format: uses the latest _updatedAt timestamp from sessions
+- For the mobile API format: uses the version timestamp from the API response
+- Displays the time in Eastern Time (ET)
 
 ### Technologies
 - React 19
@@ -75,10 +84,37 @@ Shows when agenda data was last updated based on metadata in the JSON.
 - ShadCN UI / DaisyUI components
 
 ### Data Model
-The application revolves around the `SessionItem` interface as defined in `src/types.d.ts`:
-- Contains details like session title, description, speaker info, date/time
-- Includes metadata for filtering (active status, ticket type/access level)
-- Supports various content fields like links, prerequisites, topic tags
+The application supports two data models with adapter logic to ensure compatibility:
+
+#### Original Format (`SessionItem` interface)
+- Fields like `_id`, `talkTitle`, `speakerName`, `access`, etc.
+- Simple flat structure for each session
+- Single speaker per session
+- Topic tags in separate fields (topicTag1, topicTag2, etc.)
+
+#### Mobile API Format
+- Nested response with `success`, `data`, and metadata fields
+- Session data in `data.sessions` array
+- Renamed fields: `title` instead of `talkTitle`, `sessionType` instead of `subtrack`
+- Multiple speakers in a `speakers` array with details for each
+- Topics in a string array rather than separate fields
+- Additional metadata like `isHighlighted`, `isNetworking`, and `isFavorite`
+- Available ticket types as an array rather than a single field
+
+The application maps between these formats to maintain consistent behavior regardless of data source.
 
 ### Timezone Handling
-The application standardizes on Eastern Time (America/New_York) for consistency with the conference's physical location.
+The application standardizes on Eastern Time (America/New_York) for consistency with the conference's physical location:
+- Date formatting uses explicit America/New_York timezone
+- Default day selection logic uses ET to determine the current day
+- Adds 'T12:00:00' to date strings to avoid timezone offset issues
+- Shows ET suffix on the last updated time
+
+### API Integration
+The application can be updated with new agenda data using:
+1. Direct update of the data/agenda.json file
+2. Calling the mobile API endpoint with curl:
+   ```bash
+   curl 'https://live.odsc.com/api/v1/mobile/agenda' > data/agenda.json
+   ```
+3. Automatic updates via GitHub Actions (if configured)

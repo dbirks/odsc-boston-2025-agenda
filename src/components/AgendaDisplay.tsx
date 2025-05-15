@@ -147,7 +147,7 @@ export function AgendaDisplay() {
       <div className="mt-6">
         {selectedDay && (
           <h2 className="text-xl font-semibold mb-4 flex items-center sticky top-0 bg-white z-10 py-2">
-            <Badge variant="secondary" className="mr-2 text-base px-3 py-1">
+            <Badge variant="default" className="mr-2 text-base px-3 py-1">
               {formatDate(selectedDay)}
             </Badge>
             <Badge
