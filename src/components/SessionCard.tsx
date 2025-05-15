@@ -29,11 +29,11 @@ export function SessionCard({ session }: SessionCardProps) {
   };
 
   return (
-    <Card className="w-full mb-4 overflow-hidden transition-all duration-300">
+    <Card className="w-full mb-3 overflow-hidden transition-all duration-300 shadow-sm">
       {isExpanded ? (
         // Expanded view - with full details
         <>
-          <CardHeader>
+          <CardHeader className="px-3 sm:px-6">
             <div className="flex justify-between items-start">
               <div>
                 <CardTitle>{session.title || session.talkTitle}</CardTitle>
@@ -54,33 +54,37 @@ export function SessionCard({ session }: SessionCardProps) {
                 "outline"
               }>{session.access}</Badge>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
-              <span>{session.displayStartTime} - {session.displayEndTime}</span>
-              <span>•</span>
-              <span>{session.duration} min</span>
+            <div className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500 mt-2">
+              <span className="whitespace-nowrap">{session.displayStartTime} - {session.displayEndTime}</span>
+              <span className="text-xs mx-0.5 hidden sm:inline">•</span>
+              <span className="text-xs mx-0.5 sm:hidden">/</span>
+              <span className="whitespace-nowrap">{session.duration} min</span>
               {session.location && (
                 <>
-                  <span>•</span>
-                  <span>{session.location}</span>
+                  <span className="text-xs mx-0.5 hidden sm:inline">•</span>
+                  <span className="text-xs mx-0.5 sm:hidden">/</span>
+                  <span className="whitespace-nowrap">{session.location}</span>
                 </>
               )}
               {session.subtrack && (
                 <>
-                  <span>•</span>
-                  <span>{session.subtrack}</span>
+                  <span className="text-xs mx-0.5 hidden sm:inline">•</span>
+                  <span className="text-xs mx-0.5 sm:hidden">/</span>
+                  <span className="whitespace-nowrap">{session.subtrack}</span>
                 </>
               )}
-              <span>•</span>
-              <span>{session.difficulty}</span>
+              <span className="text-xs mx-0.5 hidden sm:inline">•</span>
+              <span className="text-xs mx-0.5 sm:hidden">/</span>
+              <span className="whitespace-nowrap">{session.difficulty}</span>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 sm:px-6 pt-0 pb-3">
             <p className="whitespace-pre-line">{session.description}</p>
             
             {/* Session Links Section */}
             {(session.webinarLink || session.slackUrl || session.replayLink || session.detailLink || session.prerequisite) && (
-              <div className="mt-4 flex flex-col gap-2">
-                <h4 className="text-sm font-medium">Session Links</h4>
+              <div className="mt-3 flex flex-col gap-1 sm:gap-2">
+                <h4 className="text-xs sm:text-sm font-medium mb-1">Session Links</h4>
                 <div className="flex flex-col gap-1">
                   {session.webinarLink && (
                     <a 
@@ -153,11 +157,11 @@ export function SessionCard({ session }: SessionCardProps) {
               </div>
             )}
             
-            <div className="space-y-4 mt-4">
+            <div className="space-y-3 mt-3">
               {/* Ticket Types Section */}
-              <div className="border-b pb-2">
-                <h4 className="text-sm font-medium mb-2">Access Levels</h4>
-                <div className="flex flex-wrap gap-1">
+              <div className="border-b pb-1 sm:pb-2">
+                <h4 className="text-xs sm:text-sm font-medium mb-1 sm:mb-2">Access Levels</h4>
+                <div className="flex flex-wrap gap-0.5 sm:gap-1">
                   {/* If we have the new ticketTypes array, use it */}
                   {session.ticketTypes && session.ticketTypes.length > 0 ? (
                     session.ticketTypes.map((ticketType: string, index: number) => (
@@ -197,9 +201,9 @@ export function SessionCard({ session }: SessionCardProps) {
               </div>
               
               {/* Session Attributes Section */}
-              <div className="border-b pb-2">
-                <h4 className="text-sm font-medium mb-2">Session Details</h4>
-                <div className="flex flex-wrap gap-1">
+              <div className="border-b pb-1 sm:pb-2">
+                <h4 className="text-xs sm:text-sm font-medium mb-1 sm:mb-2">Session Details</h4>
+                <div className="flex flex-wrap gap-0.5 sm:gap-1">
                   {/* Session type */}
                   {session.subtrack && (
                     <Badge variant="outline" className="bg-gray-50">{session.subtrack}</Badge>
@@ -220,8 +224,8 @@ export function SessionCard({ session }: SessionCardProps) {
               {/* Topic Tags Section */}
               {tagArray.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium mb-2">Topics</h4>
-                  <div className="flex flex-wrap gap-1">
+                  <h4 className="text-xs sm:text-sm font-medium mb-1 sm:mb-2">Topics</h4>
+                  <div className="flex flex-wrap gap-0.5 sm:gap-1">
                     {tagArray.map((tag: string | undefined, index: number) => tag && (
                       <Badge key={index} variant="outline">{tag}</Badge>
                     ))}
@@ -233,25 +237,27 @@ export function SessionCard({ session }: SessionCardProps) {
         </>
       ) : (
         // Compact collapsed view
-        <CardHeader className="py-3">
+        <CardHeader className="py-2 px-3 sm:px-6">
           <div className="flex justify-between items-center">
             <div className="flex-grow overflow-hidden">
               <h3 className="font-medium text-base truncate" title={session.title || session.talkTitle}>
                 {session.title || session.talkTitle}
               </h3>
-              <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
-                <span className="font-semibold">{session.displayStartTime} - {session.displayEndTime}</span>
-                <span>•</span>
-                <span>{session.duration} min</span>
+              <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-gray-500 mt-1">
+                <span className="font-semibold whitespace-nowrap">{session.displayStartTime} - {session.displayEndTime}</span>
+                <span className="text-xs mx-0.5 hidden sm:inline">•</span>
+                <span className="text-xs mx-0.5 sm:hidden">/</span>
+                <span className="whitespace-nowrap">{session.duration} min</span>
                 {session.location && (
                   <>
-                    <span>•</span>
-                    <span title={session.location}>{session.location}</span>
+                    <span className="text-xs mx-0.5 hidden sm:inline">•</span>
+                    <span className="text-xs mx-0.5 sm:hidden">/</span>
+                    <span className="whitespace-nowrap" title={session.location}>{session.location}</span>
                   </>
                 )}
                 {session.subtrack && (
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 max-w-20 overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
-                    {truncateText(session.subtrack, 15)}
+                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 max-w-16 overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
+                    {truncateText(session.subtrack, 10)}
                   </Badge>
                 )}
               </div>
@@ -259,7 +265,7 @@ export function SessionCard({ session }: SessionCardProps) {
           </div>
         </CardHeader>
       )}
-      <CardFooter className="flex justify-center py-1">
+      <CardFooter className="flex justify-center py-1 px-3 sm:px-6">
         <Button
           variant="ghost"
           size="sm"
