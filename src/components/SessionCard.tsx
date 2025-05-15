@@ -12,7 +12,7 @@ interface SessionCardProps {
 export function SessionCard({ session, isPassed = false }: SessionCardProps) {
   // Extra CSS classes for when the session has passed
   const passedClasses = isPassed ? {
-    card: 'bg-gray-50 border-gray-200',
+    card: 'bg-gray-50',
     text: 'text-gray-600',
     badge: 'opacity-60',
     header: 'bg-gray-50 hover:bg-gray-100'
