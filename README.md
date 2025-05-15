@@ -51,4 +51,4 @@ This project is deployed on Vercel. The production site automatically updates wh
 
 This project was built with the assistance of [Claude Code](https://claude.ai/code), Anthropic's AI coding assistant. Claude Code was used for:
 
-- Everything :smiling:
+- Everything 😄
