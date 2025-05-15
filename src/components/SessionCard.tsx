@@ -58,6 +58,12 @@ export function SessionCard({ session }: SessionCardProps) {
               <span>{session.displayStartTime}</span>
               <span>•</span>
               <span>{session.duration} min</span>
+              {session.location && (
+                <>
+                  <span>•</span>
+                  <span>Room {session.location}</span>
+                </>
+              )}
               {session.subtrack && (
                 <>
                   <span>•</span>
@@ -222,6 +228,12 @@ export function SessionCard({ session }: SessionCardProps) {
                 <span className="font-semibold">{session.displayStartTime}</span>
                 <span>•</span>
                 <span>{session.duration} min</span>
+                {session.location && (
+                  <>
+                    <span>•</span>
+                    <span title={session.location}>Room {session.location}</span>
+                  </>
+                )}
                 {session.subtrack && (
                   <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 max-w-20 overflow-hidden text-ellipsis whitespace-nowrap" title={session.subtrack}>
                     {truncateText(session.subtrack, 15)}
