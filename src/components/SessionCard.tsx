@@ -58,7 +58,7 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                   }
                 </CardDescription>
               </div>
-              <div className="flex flex-col items-end gap-2">
+              <div className="flex flex-col items-end">
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
@@ -69,17 +69,6 @@ export function SessionCard({ session, isPassed = false }: SessionCardProps) {
                 >
                   <X size={18} />
                 </button>
-                <Badge className={passedClasses.badge} variant={
-                  session.access === "Platinum" ? "destructive" :
-                  session.access === "Gold" ? "gold" :
-                  session.access === "Silver" ? "secondary" :
-                  session.access === "VIP" ? "default" :
-                  session.access === "Bootcamp" ? "bootcamp" :
-                  session.access === "Expo" ? "expo" :
-                  session.access === "2-Day Business" ? "twoDayBusiness" :
-                  session.access === "3-Day Business" ? "threeDayBusiness" :
-                  "outline"
-                }>{session.access}</Badge>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500 mt-2">
